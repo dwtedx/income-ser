@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwtedx.income.dao.IDiUserInfoMapper" >
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+  <resultMap id="BaseResultMap" type="com.dwtedx.income.pojo.DiUserInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="head" property="head" jdbcType="VARCHAR" />
+    <result column="work" property="work" jdbcType="VARCHAR" />
+    <result column="weixin" property="weixin" jdbcType="VARCHAR" />
+    <result column="qq" property="qq" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
+    <result column="weixinopenid" property="weixinopenid" jdbcType="VARCHAR" />
+    <result column="sinaopenid" property="sinaopenid" jdbcType="VARCHAR" />
+    <result column="qqopenid" property="qqopenid" jdbcType="VARCHAR" />
+    <result column="clientsid" property="clientsid" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, username, name, phone, email, password, head, work, weixin, qq, sex, birthday, signature, weixinopenid, sinaopenid, 
+    qqopenid, clientsid, createtime, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from di_userinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- dwtedx sqlbyopenid -->
+  <select id="selectByQQOpenId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from di_userinfo
+    where qqopenid = #{qqopenid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByWeixinOpenId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from di_userinfo
+    where weixinopenid = #{weixinopenid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectBySinaOpenId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from di_userinfo
+    where sinaopenid = #{sinaopenid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from di_userinfo
+    where phone = #{phone,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from di_userinfo
+    where username = #{useruame,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByUserNameAndPassWord" resultType="com.dwtedx.income.pojo.DiUserInfo" > 
+    select 
+    <include refid="Base_Column_List" />
+    from di_userinfo
+    where username = #{useruame} and password = #{password} or phone = #{useruame} and password = #{password}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from di_userinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiUserInfo" >
+    insert into di_userinfo (id, username, name, phone, 
+      email, password, head, 
+      work, weixin, qq, sex, birthday, signature,  
+      weixinopenid, sinaopenid, qqopenid, clientsid, 
+      createtime, updatetime)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{head,jdbcType=VARCHAR}, 
+      #{work,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{signature,jdbcType=VARCHAR}, #{weixinopenid,jdbcType=VARCHAR}, #{sinaopenid,jdbcType=VARCHAR}, #{qqopenid,jdbcType=VARCHAR}, #{clientsid,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiUserInfo" >
+    insert into di_userinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="head != null" >
+        head,
+      </if>
+      <if test="work != null" >
+        work,
+      </if>
+      <if test="weixin != null" >
+        weixin,
+      </if>
+      <if test="qq != null" >
+        qq,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="signature != null" >
+        signature,
+      </if>
+      <if test="weixinopenid != null" >
+        weixinopenid,
+      </if>
+      <if test="sinaopenid != null" >
+        sinaopenid,
+      </if>
+      <if test="qqopenid != null" >
+        qqopenid,
+      </if>
+      <if test="clientsid != null" >
+        clientsid,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="head != null" >
+        #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="work != null" >
+        #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null" >
+        #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signature != null" >
+        #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinopenid != null" >
+        #{weixinopenid,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaopenid != null" >
+        #{sinaopenid,jdbcType=VARCHAR},
+      </if>
+      <if test="qqopenid != null" >
+        #{qqopenid,jdbcType=VARCHAR},
+      </if>
+      <if test="clientsid != null" >
+        #{clientsid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dwtedx.income.pojo.DiUserInfo" >
+    update di_userinfo
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="head != null" >
+        head = #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="work != null" >
+        work = #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null" >
+        weixin = #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signature != null" >
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinopenid != null" >
+        weixinopenid = #{weixinopenid,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaopenid != null" >
+        sinaopenid = #{sinaopenid,jdbcType=VARCHAR},
+      </if>
+      <if test="qqopenid != null" >
+        qqopenid = #{qqopenid,jdbcType=VARCHAR},
+      </if>
+      <if test="clientsid != null" >
+        clientsid = #{clientsid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dwtedx.income.pojo.DiUserInfo" >
+    update di_userinfo
+    set username = #{username,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      head = #{head,jdbcType=VARCHAR},
+      work = #{work,jdbcType=VARCHAR},
+      weixin = #{weixin,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      signature = #{signature,jdbcType=VARCHAR},
+      weixinopenid = #{weixinopenid,jdbcType=VARCHAR},
+      sinaopenid = #{sinaopenid,jdbcType=VARCHAR},
+      qqopenid = #{qqopenid,jdbcType=VARCHAR},
+      clientsid = #{clientsid,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwtedx.income.dao.ITbItemInfoMapper" >
+  <!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 -->  
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+  <!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> --> 
+  
+  <resultMap id="BaseResultMap" type="com.dwtedx.income.pojo.TbItemInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="item_url" property="itemUrl" jdbcType="VARCHAR" />
+    <result column="nick" property="nick" jdbcType="VARCHAR" />
+    <result column="num_iid" property="numIid" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="pict_url" property="pictUrl" jdbcType="VARCHAR" />
+    <result column="provcity" property="provcity" jdbcType="VARCHAR" />
+    <result column="reserve_price" property="reservePrice" jdbcType="VARCHAR" />
+    <result column="seller_id" property="sellerId" jdbcType="VARCHAR" />
+    <result column="small_images" property="smallImages" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="volume" property="volume" jdbcType="INTEGER" />
+    <result column="zk_final_price" property="zkFinalPrice" jdbcType="VARCHAR" />
+    <result column="taoke_url" property="taokeUrl" jdbcType="VARCHAR" />
+    <result column="brokerage_pro" property="brokeragePro" jdbcType="VARCHAR" />
+    <result column="brokerage" property="brokerage" jdbcType="VARCHAR" />
+    <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+    <result column="coupon" property="coupon" jdbcType="VARCHAR" />
+    <result column="coupon_id" property="couponId" jdbcType="VARCHAR" />
+    <result column="coupon_url" property="couponUrl" jdbcType="VARCHAR" />
+    <result column="coupon_url_taoke" property="couponUrlTaoke" jdbcType="VARCHAR" />
+    <result column="coupon_count" property="couponCount" jdbcType="INTEGER" />
+    <result column="coupon_surplus" property="couponSurplus" jdbcType="INTEGER" />
+    <result column="coupon_start" property="couponStart" jdbcType="VARCHAR" />
+    <result column="coupon_end" property="couponEnd" jdbcType="VARCHAR" />
+    <result column="tag_content" property="tagContent" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, item_url, nick, num_iid, category_id, pict_url, provcity, reserve_price, seller_id, 
+    small_images, title, user_type, volume, zk_final_price, taoke_url, brokerage_pro, 
+    brokerage, store_name, coupon, coupon_id, coupon_url, coupon_url_taoke, coupon_count, 
+    coupon_surplus, coupon_start, coupon_end, tag_content, createtime, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_iteminfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByTaobaoUid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_iteminfo
+    where num_iid = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByTopTaobaoItem" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from tb_iteminfo
+    <![CDATA[ where brokerage > 0.5 and volume > 3000 ]]>
+    ORDER BY coupon desc LIMIT #{startNo}, #{lengthNo}
+  </select>
+  <select id="selectByNineNineItem" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" /> 
+    from tb_iteminfo 
+    <![CDATA[ where (zk_final_price - coupon) < 20 ]]>
+    ORDER BY id asc LIMIT #{startNo}, #{lengthNo} 
+  </select>
+  <select id="selectByRandItem" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_iteminfo 
+    WHERE id >= (SELECT floor(RAND() * (SELECT MAX(id) FROM tb_iteminfo)))  
+    ORDER BY id LIMIT 20
+  </select>
+  <select id="selectByCategorysItem" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    FROM tb_iteminfo 
+    WHERE category_id in 
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+     #{item} 
+    </foreach>
+    ORDER BY id asc LIMIT #{startNo}, #{lengthNo} 
+  </select>
+  <select id="selectByCouponItem" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    FROM tb_iteminfo 
+    ORDER BY coupon desc LIMIT #{startNo}, #{lengthNo} 
+  </select>
+  <select id="selectByNotCategorysItem" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    FROM tb_iteminfo 
+    WHERE category_id not in 
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+     #{item} 
+    </foreach>
+    ORDER BY id asc LIMIT #{startNo}, #{lengthNo} 
+  </select>
+  <select id="selectByCategoryIdItem" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    FROM tb_iteminfo 
+    WHERE category_id = #{cateId}
+    ORDER BY id asc LIMIT #{startNo}, #{lengthNo} 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_iteminfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dwtedx.income.pojo.TbItemInfo" >
+    insert into tb_iteminfo (id, item_url, nick, 
+      num_iid, category_id, pict_url, 
+      provcity, reserve_price, seller_id, 
+      small_images, title, user_type, 
+      volume, zk_final_price, taoke_url, 
+      brokerage_pro, brokerage, store_name, 
+      coupon, coupon_id, coupon_url, 
+      coupon_url_taoke, coupon_count, coupon_surplus, 
+      coupon_start, coupon_end, tag_content, 
+      createtime, updatetime)
+    values (#{id,jdbcType=INTEGER}, #{itemUrl,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR}, 
+      #{numIid,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, #{pictUrl,jdbcType=VARCHAR}, 
+      #{provcity,jdbcType=VARCHAR}, #{reservePrice,jdbcType=VARCHAR}, #{sellerId,jdbcType=VARCHAR}, 
+      #{smallImages,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
+      #{volume,jdbcType=INTEGER}, #{zkFinalPrice,jdbcType=VARCHAR}, #{taokeUrl,jdbcType=VARCHAR}, 
+      #{brokeragePro,jdbcType=VARCHAR}, #{brokerage,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, 
+      #{coupon,jdbcType=VARCHAR}, #{couponId,jdbcType=VARCHAR}, #{couponUrl,jdbcType=VARCHAR}, 
+      #{couponUrlTaoke,jdbcType=VARCHAR}, #{couponCount,jdbcType=INTEGER}, #{couponSurplus,jdbcType=INTEGER}, 
+      #{couponStart,jdbcType=VARCHAR}, #{couponEnd,jdbcType=VARCHAR}, #{tagContent,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.TbItemInfo" >
+    insert into tb_iteminfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="itemUrl != null" >
+        item_url,
+      </if>
+      <if test="nick != null" >
+        nick,
+      </if>
+      <if test="numIid != null" >
+        num_iid,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="pictUrl != null" >
+        pict_url,
+      </if>
+      <if test="provcity != null" >
+        provcity,
+      </if>
+      <if test="reservePrice != null" >
+        reserve_price,
+      </if>
+      <if test="sellerId != null" >
+        seller_id,
+      </if>
+      <if test="smallImages != null" >
+        small_images,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="volume != null" >
+        volume,
+      </if>
+      <if test="zkFinalPrice != null" >
+        zk_final_price,
+      </if>
+      <if test="taokeUrl != null" >
+        taoke_url,
+      </if>
+      <if test="brokeragePro != null" >
+        brokerage_pro,
+      </if>
+      <if test="brokerage != null" >
+        brokerage,
+      </if>
+      <if test="storeName != null" >
+        store_name,
+      </if>
+      <if test="coupon != null" >
+        coupon,
+      </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="couponUrl != null" >
+        coupon_url,
+      </if>
+      <if test="couponUrlTaoke != null" >
+        coupon_url_taoke,
+      </if>
+      <if test="couponCount != null" >
+        coupon_count,
+      </if>
+      <if test="couponSurplus != null" >
+        coupon_surplus,
+      </if>
+      <if test="couponStart != null" >
+        coupon_start,
+      </if>
+      <if test="couponEnd != null" >
+        coupon_end,
+      </if>
+      <if test="tagContent != null" >
+        tag_content,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="itemUrl != null" >
+        #{itemUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="nick != null" >
+        #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="numIid != null" >
+        #{numIid,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="pictUrl != null" >
+        #{pictUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="provcity != null" >
+        #{provcity,jdbcType=VARCHAR},
+      </if>
+      <if test="reservePrice != null" >
+        #{reservePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null" >
+        #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="smallImages != null" >
+        #{smallImages,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="volume != null" >
+        #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="zkFinalPrice != null" >
+        #{zkFinalPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="taokeUrl != null" >
+        #{taokeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="brokeragePro != null" >
+        #{brokeragePro,jdbcType=VARCHAR},
+      </if>
+      <if test="brokerage != null" >
+        #{brokerage,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null" >
+        #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="coupon != null" >
+        #{coupon,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId != null" >
+        #{couponId,jdbcType=VARCHAR},
+      </if>
+      <if test="couponUrl != null" >
+        #{couponUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="couponUrlTaoke != null" >
+        #{couponUrlTaoke,jdbcType=VARCHAR},
+      </if>
+      <if test="couponCount != null" >
+        #{couponCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponSurplus != null" >
+        #{couponSurplus,jdbcType=INTEGER},
+      </if>
+      <if test="couponStart != null" >
+        #{couponStart,jdbcType=VARCHAR},
+      </if>
+      <if test="couponEnd != null" >
+        #{couponEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="tagContent != null" >
+        #{tagContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dwtedx.income.pojo.TbItemInfo" >
+    update tb_iteminfo
+    <set >
+      <if test="itemUrl != null" >
+        item_url = #{itemUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="nick != null" >
+        nick = #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="numIid != null" >
+        num_iid = #{numIid,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="pictUrl != null" >
+        pict_url = #{pictUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="provcity != null" >
+        provcity = #{provcity,jdbcType=VARCHAR},
+      </if>
+      <if test="reservePrice != null" >
+        reserve_price = #{reservePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null" >
+        seller_id = #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="smallImages != null" >
+        small_images = #{smallImages,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="volume != null" >
+        volume = #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="zkFinalPrice != null" >
+        zk_final_price = #{zkFinalPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="taokeUrl != null" >
+        taoke_url = #{taokeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="brokeragePro != null" >
+        brokerage_pro = #{brokeragePro,jdbcType=VARCHAR},
+      </if>
+      <if test="brokerage != null" >
+        brokerage = #{brokerage,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null" >
+        store_name = #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="coupon != null" >
+        coupon = #{coupon,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId != null" >
+        coupon_id = #{couponId,jdbcType=VARCHAR},
+      </if>
+      <if test="couponUrl != null" >
+        coupon_url = #{couponUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="couponUrlTaoke != null" >
+        coupon_url_taoke = #{couponUrlTaoke,jdbcType=VARCHAR},
+      </if>
+      <if test="couponCount != null" >
+        coupon_count = #{couponCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponSurplus != null" >
+        coupon_surplus = #{couponSurplus,jdbcType=INTEGER},
+      </if>
+      <if test="couponStart != null" >
+        coupon_start = #{couponStart,jdbcType=VARCHAR},
+      </if>
+      <if test="couponEnd != null" >
+        coupon_end = #{couponEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="tagContent != null" >
+        tag_content = #{tagContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dwtedx.income.pojo.TbItemInfo" >
+    update tb_iteminfo
+    set item_url = #{itemUrl,jdbcType=VARCHAR},
+      nick = #{nick,jdbcType=VARCHAR},
+      num_iid = #{numIid,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      pict_url = #{pictUrl,jdbcType=VARCHAR},
+      provcity = #{provcity,jdbcType=VARCHAR},
+      reserve_price = #{reservePrice,jdbcType=VARCHAR},
+      seller_id = #{sellerId,jdbcType=VARCHAR},
+      small_images = #{smallImages,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=INTEGER},
+      volume = #{volume,jdbcType=INTEGER},
+      zk_final_price = #{zkFinalPrice,jdbcType=VARCHAR},
+      taoke_url = #{taokeUrl,jdbcType=VARCHAR},
+      brokerage_pro = #{brokeragePro,jdbcType=VARCHAR},
+      brokerage = #{brokerage,jdbcType=VARCHAR},
+      store_name = #{storeName,jdbcType=VARCHAR},
+      coupon = #{coupon,jdbcType=VARCHAR},
+      coupon_id = #{couponId,jdbcType=VARCHAR},
+      coupon_url = #{couponUrl,jdbcType=VARCHAR},
+      coupon_url_taoke = #{couponUrlTaoke,jdbcType=VARCHAR},
+      coupon_count = #{couponCount,jdbcType=INTEGER},
+      coupon_surplus = #{couponSurplus,jdbcType=INTEGER},
+      coupon_start = #{couponStart,jdbcType=VARCHAR},
+      coupon_end = #{couponEnd,jdbcType=VARCHAR},
+      tag_content = #{tagContent,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwtedx.income.dao.IDiSendSmsMapper" >
+  <resultMap id="BaseResultMap" type="com.dwtedx.income.pojo.DiSendSms" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="paramstr" property="paramstr" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="tempcode" property="tempcode" jdbcType="VARCHAR" />
+    <result column="signname" property="signname" jdbcType="VARCHAR" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, paramstr, mobile, tempcode, signname, result, createtime, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from di_sendsms
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByFristRow" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from di_sendsms
+    where mobile = #{phone,jdbcType=VARCHAR}
+    ORDER BY createtime desc LIMIT 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from di_sendsms
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiSendSms" >
+    insert into di_sendsms (id, paramstr, mobile, 
+      tempcode, signname, result, 
+      createtime, updatetime)
+    values (#{id,jdbcType=INTEGER}, #{paramstr,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{tempcode,jdbcType=VARCHAR}, #{signname,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiSendSms" >
+    insert into di_sendsms
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="paramstr != null" >
+        paramstr,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="tempcode != null" >
+        tempcode,
+      </if>
+      <if test="signname != null" >
+        signname,
+      </if>
+      <if test="result != null" >
+        result,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="paramstr != null" >
+        #{paramstr,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="tempcode != null" >
+        #{tempcode,jdbcType=VARCHAR},
+      </if>
+      <if test="signname != null" >
+        #{signname,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dwtedx.income.pojo.DiSendSms" >
+    update di_sendsms
+    <set >
+      <if test="paramstr != null" >
+        paramstr = #{paramstr,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="tempcode != null" >
+        tempcode = #{tempcode,jdbcType=VARCHAR},
+      </if>
+      <if test="signname != null" >
+        signname = #{signname,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dwtedx.income.pojo.DiSendSms" >
+    update di_sendsms
+    set paramstr = #{paramstr,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      tempcode = #{tempcode,jdbcType=VARCHAR},
+      signname = #{signname,jdbcType=VARCHAR},
+      result = #{result,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

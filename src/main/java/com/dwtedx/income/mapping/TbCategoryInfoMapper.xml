@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwtedx.income.dao.ITbCategoryInfoMapper" >
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+  <resultMap id="BaseResultMap" type="com.dwtedx.income.pojo.TbCategoryInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="category_top" property="categoryTop" jdbcType="INTEGER" />
+    <result column="category_icon" property="categoryIcon" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, category_name, description, category_top, category_icon, createtime, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_categoryinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCategoryName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_categoryinfo
+    where category_name = #{categoryName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByCategoryTop" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_categoryinfo
+    where category_top = 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_categoryinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dwtedx.income.pojo.TbCategoryInfo" >
+    insert into tb_categoryinfo (id, category_name, description, category_top, 
+      category_icon, createtime, updatetime
+      )
+    values (#{id,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{categoryTop,jdbcType=INTEGER}, 
+      #{categoryIcon,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.TbCategoryInfo" >
+    insert into tb_categoryinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="categoryName != null" >
+        category_name,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="categoryTop != null" >
+        category_top,
+      </if>
+      <if test="categoryIcon != null" >
+        category_icon,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryTop != null" >
+        #{categoryTop,jdbcType=INTEGER},
+      </if>
+      <if test="categoryIcon != null" >
+        #{categoryIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dwtedx.income.pojo.TbCategoryInfo" >
+    update tb_categoryinfo
+    <set >
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryTop != null" >
+        category_top = #{categoryTop,jdbcType=INTEGER},
+      </if>
+      <if test="categoryIcon != null" >
+        category_icon = #{categoryIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dwtedx.income.pojo.TbCategoryInfo" >
+    update tb_categoryinfo
+    set category_name = #{categoryName,jdbcType=VARCHAR},
+      description = #{description,jdbcType=INTEGER},
+      category_top = #{categoryTop,jdbcType=INTEGER},
+      category_icon = #{categoryIcon,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

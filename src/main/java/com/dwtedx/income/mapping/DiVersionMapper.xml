@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwtedx.income.dao.IDiVersionMapper" >
+  <resultMap id="BaseResultMap" type="com.dwtedx.income.pojo.DiVersion" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="clienttype" property="clienttype" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="versionCode" property="versioncode" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="apkurl" property="apkurl" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, clienttype, version, versionCode, content, apkurl, createtime, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from di_version
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByreateTime" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from di_version 
+    ORDER BY createtime desc LIMIT 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from di_version
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiVersion" >
+    insert into di_version (id, clienttype, version, 
+      versionCode, content, apkurl, 
+      createtime, updatetime)
+    values (#{id,jdbcType=INTEGER}, #{clienttype,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR}, 
+      #{versioncode,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{apkurl,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiVersion" >
+    insert into di_version
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clienttype != null" >
+        clienttype,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="versioncode != null" >
+        versionCode,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="apkurl != null" >
+        apkurl,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="clienttype != null" >
+        #{clienttype,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="versioncode != null" >
+        #{versioncode,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="apkurl != null" >
+        #{apkurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dwtedx.income.pojo.DiVersion" >
+    update di_version
+    <set >
+      <if test="clienttype != null" >
+        clienttype = #{clienttype,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="versioncode != null" >
+        versionCode = #{versioncode,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="apkurl != null" >
+        apkurl = #{apkurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dwtedx.income.pojo.DiVersion" >
+    update di_version
+    set clienttype = #{clienttype,jdbcType=INTEGER},
+      version = #{version,jdbcType=VARCHAR},
+      versionCode = #{versioncode,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      apkurl = #{apkurl,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

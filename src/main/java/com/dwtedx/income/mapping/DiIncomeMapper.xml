@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwtedx.income.dao.IDiIncomeMapper" >
+  <resultMap id="BaseResultMap" type="com.dwtedx.income.pojo.DiIncome" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="clientid" property="clientid" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="role" property="role" jdbcType="INTEGER" />
+    <result column="moneysum" property="moneysum" jdbcType="DECIMAL" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="typeid" property="typeid" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="accountid" property="accountid" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="voicepath" property="voicepath" jdbcType="VARCHAR" />
+    <result column="imagepath" property="imagepath" jdbcType="VARCHAR" />
+    <result column="recordtype" property="recordtype" jdbcType="INTEGER" />
+    <result column="recordtime" property="recordtime" jdbcType="TIMESTAMP" />
+    <result column="deletefalag" property="deletefalag" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, clientid, username, userid, role, moneysum, type, typeid, account, accountid, remark, location, voicepath, 
+    imagepath, recordtype, recordtime, deletefalag, createtime, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from di_income
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByClientidAndUserId" resultMap="BaseResultMap" parameterType="com.dwtedx.income.pojo.DiIncome" >
+    select 
+    <include refid="Base_Column_List" />
+    from di_income
+    where clientid = #{clientid,jdbcType=INTEGER} and userid = #{userid,jdbcType=INTEGER} ORDER BY id DESC LIMIT 1
+  </select>
+  <select id="selectIncomesByUserId" resultType="com.dwtedx.income.pojo.DiIncome" > 
+    select 
+    <include refid="Base_Column_List" />
+    from di_income
+    where userid = #{userId} limit #{startNo}, #{lengthNo} 
+  </select>
+  <select id="selectByRoleAndUserId" resultType="com.dwtedx.income.pojo.DiIncome" > 
+    select 
+    <include refid="Base_Column_List" />
+    from di_income
+    where userid = #{userId} and role = #{role} 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from di_income
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByClientidAndUserId" parameterType="com.dwtedx.income.pojo.DiIncome" >
+    delete from di_income
+    where clientid = #{clientid,jdbcType=INTEGER} and userid = #{userid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiIncome" useGeneratedKeys="true" keyProperty="id">
+    insert into di_income (id, clientid, username, userid, 
+      role, moneysum, type, 
+      typeid, account, accountid, 
+      remark, location, voicepath, imagepath, recordtype, 
+      recordtime, deletefalag, createtime, updatetime
+      )
+    values (#{id,jdbcType=INTEGER}, #{clientid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
+      #{role,jdbcType=INTEGER}, #{moneysum,jdbcType=DECIMAL}, #{type,jdbcType=VARCHAR}, 
+      #{typeid,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{accountid,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, #{voicepath,jdbcType=VARCHAR}, #{imagepath,jdbcType=VARCHAR}, #{recordtype,jdbcType=INTEGER}, 
+      #{recordtime,jdbcType=TIMESTAMP}, #{deletefalag,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiIncome" useGeneratedKeys="true" keyProperty="id">
+    insert into di_income
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clientid != null" >
+        clientid,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="role != null" >
+        role,
+      </if>
+      <if test="moneysum != null" >
+        moneysum,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="typeid != null" >
+        typeid,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="accountid != null" >
+        accountid,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+      <if test="voicepath != null" >
+        voicepath,
+      </if>
+      <if test="imagepath != null" >
+        imagepath,
+      </if>
+      <if test="recordtype != null" >
+        recordtype,
+      </if>
+      <if test="recordtime != null" >
+        recordtime,
+      </if>
+      <if test="deletefalag != null" >
+        deletefalag,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="clientid != null" >
+        #{clientid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=INTEGER},
+      </if>
+      <if test="moneysum != null" >
+        #{moneysum,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="accountid != null" >
+        #{accountid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="voicepath != null" >
+        #{voicepath,jdbcType=VARCHAR},
+      </if>
+      <if test="imagepath != null" >
+        #{imagepath,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtype != null" >
+        #{recordtype,jdbcType=INTEGER},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletefalag != null" >
+        #{deletefalag,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dwtedx.income.pojo.DiIncome" >
+    update di_income
+    <set >
+      <if test="clientid != null" >
+        clientid = #{clientid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="role != null" >
+        role = #{role,jdbcType=INTEGER},
+      </if>
+      <if test="moneysum != null" >
+        moneysum = #{moneysum,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        typeid = #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="accountid != null" >
+        accountid = #{accountid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="voicepath != null" >
+        voicepath = #{voicepath,jdbcType=VARCHAR},
+      </if>
+      <if test="imagepath != null" >
+        imagepath = #{imagepath,jdbcType=VARCHAR},
+      </if>
+      <if test="recordtype != null" >
+        recordtype = #{recordtype,jdbcType=INTEGER},
+      </if>
+      <if test="recordtime != null" >
+        recordtime = #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletefalag != null" >
+        deletefalag = #{deletefalag,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dwtedx.income.pojo.DiIncome" >
+    update di_income
+    set clientid = #{clientid,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=INTEGER},
+      role = #{role,jdbcType=INTEGER},
+      moneysum = #{moneysum,jdbcType=DECIMAL},
+      type = #{type,jdbcType=VARCHAR},
+      typeid = #{typeid,jdbcType=INTEGER},
+      account = #{account,jdbcType=VARCHAR},
+      accountid = #{accountid,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      voicepath = #{voicepath,jdbcType=VARCHAR},
+      imagepath = #{imagepath,jdbcType=VARCHAR},
+      recordtype = #{recordtype,jdbcType=INTEGER},
+      recordtime = #{recordtime,jdbcType=TIMESTAMP},
+      deletefalag = #{deletefalag,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
