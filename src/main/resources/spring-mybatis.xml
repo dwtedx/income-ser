@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans  
-                        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
-                        http://www.springframework.org/schema/context  
-                        http://www.springframework.org/schema/context/spring-context-4.0.xsd  
-                        http://www.springframework.org/schema/mvc  
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                        http://www.springframework.org/schema/mvc
                         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	<!-- 自动扫描 -->
-	<context:component-scan base-package="com.dwtedx.income" />
+	<context:component-scan
+		base-package="com.dwtedx.income" />
 	<!-- 引入配置文件 -->
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:jdbc.properties" />
 	</bean>
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${driver}" />
 		<property name="url" value="${url}" />
 		<property name="username" value="${username}" />
@@ -33,14 +35,15 @@
 		<property name="minIdle" value="${minIdle}"></property>
 		<!-- 获取连接最大等待时间 -->
 		<property name="maxWait" value="${maxWait}"></property>
-		
+
 		<!-- dwtedx -->
 		<!-- 设置在自动回收超时连接的时候打印连接的超时错误 -->
 		<property name="logAbandoned" value="${logAbandoned}" />
 		<!-- 设置自动回收超时连接 -->
 		<property name="removeAbandoned" value="${removeAbandoned}" />
 		<!-- 自动回收超时时间(以秒数为单位) -->
-		<property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" />
+		<property name="removeAbandonedTimeout"
+			value="${removeAbandonedTimeout}" />
 		<!-- SQL查询,用来验证从连接池取出的连接 -->
 		<property name="validationQuery" value="${validationQuery}" />
 		<!-- 指明是否在从池中取出连接前进行检验 -->
@@ -52,16 +55,19 @@
 	</bean>
 
 	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<!-- 自动扫描mapping.xml文件 -->
-		<property name="mapperLocations" value="classpath:com/dwtedx/income/mapping/*.xml"></property>
+		<property name="mapperLocations"
+			value="classpath:com/dwtedx/income/mapping/*.xml"></property>
 	</bean>
 
 	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.dwtedx.income.dao" />
-		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+		<property name="sqlSessionFactoryBeanName"
+			value="sqlSessionFactory"></property>
 	</bean>
 
 	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
