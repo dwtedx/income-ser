@@ -30,6 +30,7 @@ public class ICConsants {
     public final static int OTHER_LOGIN_SINA = 3;
     
     public final static String ICHEAD_HTTP_URL = "http://ichead.dwtedx.com/";
+    public final static String ITOPIC_HTTP_URL = "https://ockhamimg.ins-consulting.com";
     
     public final static int INCOME_RECORD_TYPE_0 = 0;//普通记账
     public final static int INCOME_RECORD_TYPE_1 = 1;//扫单
