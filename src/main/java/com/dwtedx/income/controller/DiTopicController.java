@@ -27,7 +27,7 @@ public class DiTopicController {
 	@RequestMapping(value = "/index", method = RequestMethod.POST) 
 	public ResultInfo toUpdate(@RequestBody MessageInfo<BaseModel> model){
 			
-		List<TopicModel> topics = diTopicService.findTopics(model.getBody());
+		List<TopicModel> topics = diTopicService.findTopics(model.getBody(), model.getHead().getUserId());
 		
 		ResultInfo resultInfo = new ResultInfo();
 		resultInfo.setBody(topics);

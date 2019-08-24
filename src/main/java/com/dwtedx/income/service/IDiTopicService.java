@@ -7,6 +7,7 @@ import com.dwtedx.income.model.TopicModel;
 
 public interface IDiTopicService {
 	
-	public List<TopicModel> findTopics(BaseModel model);
+	public List<TopicModel> findTopics(BaseModel model, int userid);
+
 
 }

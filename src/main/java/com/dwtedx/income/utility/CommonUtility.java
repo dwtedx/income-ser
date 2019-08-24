@@ -779,4 +779,8 @@ public class CommonUtility {
         return pattern.matcher(str).matches();
     }
     
+    public static String zeroPlaces(float mfloat) {
+    	DecimalFormat df = new DecimalFormat("#");
+    	return df.format(mfloat);
+    }
 }

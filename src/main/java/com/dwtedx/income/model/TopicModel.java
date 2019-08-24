@@ -3,6 +3,8 @@ package com.dwtedx.income.model;
 import java.util.Date;
 import java.util.List;
 
+import com.dwtedx.income.utility.CommonUtility;
+
 public class TopicModel {
     private int id;
 
@@ -46,8 +48,11 @@ public class TopicModel {
     private String username;
     private String userpath;
     private int talkcount;
+    private boolean voted;
+    private int votecount;
     
     private List<TopicimgModel> topicimg;
+    private List<TopicvoteModel> topicvote;
 
     public int getId() {
         return id;
@@ -156,6 +161,10 @@ public class TopicModel {
     public Date getCreatetime() {
         return createtime;
     }
+    
+    public String getCreatetimestr() {
+        return CommonUtility.stringDateFormart(createtime);
+    }
 
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
@@ -232,6 +241,30 @@ public class TopicModel {
 	public void setUserpath(String userpath) {
 		this.userpath = userpath;
 	}
-    
+
+	public boolean isVoted() {
+		return voted;
+	}
+
+	public void setVoted(boolean voted) {
+		this.voted = voted;
+	}
+
+	public int getVotecount() {
+		return votecount;
+	}
+
+	public void setVotecount(int votecount) {
+		this.votecount = votecount;
+	}
+
+	public List<TopicvoteModel> getTopicvote() {
+		return topicvote;
+	}
+
+	public void setTopicvote(List<TopicvoteModel> topicvote) {
+		this.topicvote = topicvote;
+	}
+	
 	
 }
