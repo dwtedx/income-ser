@@ -2,14 +2,16 @@ package com.dwtedx.income.model;
 
 import java.util.Date;
 
-public class TopicvoteModel {
+public class TopicvoteresultModel {
     private int id;
 
     private int topicid;
 
-    private String name;
+    private int topicvoteid;
 
-    private String path;
+    private int userid;
+
+    private String name;
 
     private String remark;
 
@@ -22,10 +24,6 @@ public class TopicvoteModel {
     private Date updatetime;
 
     private int updateuser;
-    
-    private int personnum;
-    private String percent;
-    private boolean checked;
 
     public int getId() {
         return id;
@@ -43,20 +41,28 @@ public class TopicvoteModel {
         this.topicid = topicid;
     }
 
+    public int getTopicvoteid() {
+        return topicvoteid;
+    }
+
+    public void setTopicvoteid(int topicvoteid) {
+        this.topicvoteid = topicvoteid;
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path == null ? null : path.trim();
     }
 
     public String getRemark() {
@@ -106,31 +112,4 @@ public class TopicvoteModel {
     public void setUpdateuser(int updateuser) {
         this.updateuser = updateuser;
     }
-
-	public int getPersonnum() {
-		return personnum;
-	}
-
-	public void setPersonnum(int personnum) {
-		this.personnum = personnum;
-	}
-
-	public String getPercent() {
-		return percent;
-	}
-
-	public void setPercent(String percent) {
-		this.percent = percent;
-	}
-
-	public boolean isChecked() {
-		return checked;
-	}
-
-	public void setChecked(boolean checked) {
-		this.checked = checked;
-	}
-
-	
-	
 }

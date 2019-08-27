@@ -22,7 +22,7 @@ public class DiTopicvote {
     private Date updatetime;
 
     private Integer updateuser;
-
+    
     public Integer getId() {
         return id;
     }
@@ -102,4 +102,5 @@ public class DiTopicvote {
     public void setUpdateuser(Integer updateuser) {
         this.updateuser = updateuser;
     }
+    
 }

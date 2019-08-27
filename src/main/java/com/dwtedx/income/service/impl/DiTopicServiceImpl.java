@@ -19,6 +19,7 @@ import com.dwtedx.income.model.BaseModel;
 import com.dwtedx.income.model.TopicModel;
 import com.dwtedx.income.model.TopicimgModel;
 import com.dwtedx.income.model.TopicvoteModel;
+import com.dwtedx.income.model.TopicvoteresultModel;
 import com.dwtedx.income.pojo.DiTopic;
 import com.dwtedx.income.pojo.DiTopicimg;
 import com.dwtedx.income.pojo.DiTopicvote;
@@ -86,6 +87,12 @@ public class DiTopicServiceImpl implements IDiTopicService {
 			List<DiTopicvote> topicvotes = diTopicvoteMapper.selectInsTopicvoteByTopicId(pojo.getId());
 			for (DiTopicvote topicvote : topicvotes) {
 				topicvoteModel = modelMapper.map(topicvote, TopicvoteModel.class);
+				//当前用户是否已投票
+				for(DiTopicvoteresult voteresult : topicvoteresults) {
+					if(topicvote.getId() == voteresult.getTopicvoteid()) {
+						topicvoteModel.setChecked(true);
+					}
+				}
 				//计算
 				int itemNum = diTopicvoteresultMapper.selectInsTopicvoteresultCount(pojo.getId(), topicvote.getId());
 				topicvoteModel.setPersonnum(itemNum);
@@ -103,6 +110,44 @@ public class DiTopicServiceImpl implements IDiTopicService {
 			models.add(model);
 		}
 		return models;
+	}
+
+	@Override
+	public List<TopicvoteModel> seveVoteResult(TopicvoteresultModel body) {
+		DiTopicvoteresult pojo = modelMapper.map(body, DiTopicvoteresult.class);
+		diTopicvoteresultMapper.insertSelective(pojo);
+		
+		//查找投票
+		//是否投过票
+		List<DiTopicvoteresult>  topicvoteresults =  diTopicvoteresultMapper.selectInsTopicvoteresultByUserId(pojo.getTopicid(), pojo.getUserid());
+		
+		//投票结果
+		int allNum = diTopicvoteresultMapper.selectInsTopicvoteresultCount(pojo.getTopicid(), 0);
+		
+		List<TopicvoteModel> topicvoteModels = new ArrayList<TopicvoteModel>();
+		TopicvoteModel  topicvoteModel;
+		List<DiTopicvote> topicvotes = diTopicvoteMapper.selectInsTopicvoteByTopicId(pojo.getTopicid());
+		for (DiTopicvote topicvote : topicvotes) {
+			topicvoteModel = modelMapper.map(topicvote, TopicvoteModel.class);
+			//当前用户是否已投票
+			for(DiTopicvoteresult voteresult : topicvoteresults) {
+				if(topicvote.getId() == voteresult.getTopicvoteid()) {
+					topicvoteModel.setChecked(true);
+				}
+			}
+			//计算
+			int itemNum = diTopicvoteresultMapper.selectInsTopicvoteresultCount(pojo.getTopicid(), topicvote.getId());
+			topicvoteModel.setPersonnum(itemNum);
+			if(allNum > 0) {
+				float aVal = itemNum / (float)allNum;
+				aVal = aVal * 100;
+				topicvoteModel.setPercent(CommonUtility.zeroPlaces(aVal));
+			}else {
+				topicvoteModel.setPercent("0");
+			}
+			topicvoteModels.add(topicvoteModel);
+		}
+		return topicvoteModels;
 	}
 	
 
