@@ -134,14 +134,12 @@ public class DiUserInfoServiceImpl implements IDiUserInfoService {
 		// ...其他参数参考类注释
 		UploadManager uploadManager = new UploadManager(cfg);
 		// ...生成上传凭证，然后准备上传
-		String accessKey = "yhhUpgnwLwN2r_O6Keu460-mvn39zAuY8zI6UK6q";
-		String secretKey = "rZkU4fmmwR3qMAuxJ6U6NWZ3ZR372mGGwEjtR__k";
-		String bucket = "ichead";
+		
 		// 默认不指定key的情况下，以文件内容的hash值作为文件名
-		String key = CommonUtility.getTempImageName();
+		String key = CommonUtility.getTempImageName(userId);
 
-		Auth auth = Auth.create(accessKey, secretKey);
-		String upToken = auth.uploadToken(bucket);
+		Auth auth = Auth.create(ICConsants.QINIU_ACCESSKEY, ICConsants.QINIU_SECRETKEY);
+		String upToken = auth.uploadToken(ICConsants.BUCKET_ICHEAD);
 		
 		DefaultPutRet putRet = null;
 		try {

@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -200,6 +201,23 @@ public class CommonUtility {
         }
         return false;
     }
+    
+    /** 
+     * 生成随机数<br> 
+     * GUID： 即Globally Unique Identifier（全球唯一标识符） 也称作 UUID(Universally Unique 
+     * IDentifier) 。 
+     *  
+     * 所以GUID就是UUID。 
+     *  
+     * GUID是一个128位长的数字，一般用16进制表示。算法的核心思想是结合机器的网卡、当地时间、一个随即数来生成GUID。 
+     *  
+     * 从理论上讲，如果一台机器每秒产生10000000个GUID，则可以保证（概率意义上）3240年不重复。 
+     *  
+     * @return 
+     */  
+    public static String randomUUID() {  
+        return UUID.randomUUID().toString().replace("-", "");  
+    }
 
     /**
      * @param @return 设定文件
@@ -209,7 +227,7 @@ public class CommonUtility {
      * @Description: 当前时间的jpg名称
      * @author qinyl http://dwtedx.com
      */
-    public static String getTempImageName() {
+    public static String getTempImageName(int userid) {
         Calendar ca = Calendar.getInstance();
         int year = ca.get(Calendar.YEAR);// 获取年份
         int month = ca.get(Calendar.MONTH) + 1;// 获取月份
@@ -217,7 +235,26 @@ public class CommonUtility {
         int minute = ca.get(Calendar.MINUTE);// 分
         int hour = ca.get(Calendar.HOUR);// 小时
         int second = ca.get(Calendar.SECOND);// 秒
-        return "IMG_" + year + month + day + "_" + hour + minute + second + ".jpg";
+        return "IMG_" + year + month + day + "_" + hour + minute + second + "_" + userid + ".jpg";
+    }
+    
+    /**
+     * @param @return 设定文件
+     * @return String    返回类型
+     * @throws
+     * @Title: getTempFileName
+     * @Description: 当前时间的jpg名称
+     * @author qinyl http://dwtedx.com
+     */
+    public static String getTempImageName(int code, String suffix) {
+        Calendar ca = Calendar.getInstance();
+        int year = ca.get(Calendar.YEAR);// 获取年份
+        int month = ca.get(Calendar.MONTH) + 1;// 获取月份
+        int day = ca.get(Calendar.DATE);// 获取日
+        //int minute = ca.get(Calendar.MINUTE);// 分
+        //int hour = ca.get(Calendar.HOUR);// 小时
+        //int second = ca.get(Calendar.SECOND);// 秒
+        return randomUUID() + "_" + year + month + day + "_" + code + "." + suffix;
     }
 
     /**

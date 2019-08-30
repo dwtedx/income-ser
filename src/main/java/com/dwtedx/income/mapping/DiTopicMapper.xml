@@ -37,7 +37,7 @@
     delete from di_topic
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiTopic" >
+  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiTopic" useGeneratedKeys="true" keyProperty="id" >
     insert into di_topic (id, userid, name, 
       description, peoplenum, viewnum, 
       type, multiple, liked, 
@@ -53,7 +53,7 @@
       #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}, 
       #{updateuser,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiTopic" >
+  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiTopic" useGeneratedKeys="true" keyProperty="id" >
     insert into di_topic
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

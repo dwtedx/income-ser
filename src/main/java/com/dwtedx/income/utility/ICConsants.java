@@ -29,13 +29,25 @@ public class ICConsants {
     public final static int OTHER_LOGIN_QQ = 2;
     public final static int OTHER_LOGIN_SINA = 3;
     
+    //七牛图片上传
+    public final static String QINIU_ACCESSKEY = "yhhUpgnwLwN2r_O6Keu460-mvn39zAuY8zI6UK6q";
+    public final static String QINIU_SECRETKEY = "rZkU4fmmwR3qMAuxJ6U6NWZ3ZR372mGGwEjtR__k";
+    public final static String BUCKET_ICHEAD = "ichead";
+    public final static String BUCKET_ICIMAGES = "icimages";
     public final static String ICHEAD_HTTP_URL = "http://ichead.dwtedx.com/";
-    public final static String ITOPIC_HTTP_URL = "https://ockhamimg.ins-consulting.com";
+    public final static String ITOPIC_HTTP_URL = "http://icimages.dwtedx.com";
+    
     
     public final static int INCOME_RECORD_TYPE_0 = 0;//普通记账
     public final static int INCOME_RECORD_TYPE_1 = 1;//扫单
 
     public final static int DELETEFALAG_NOTDELETE = 0;
     public final static int DELETEFALAG_DELETEED = 1;//删除
+    
+    
+    //1：话题  2：投票
+    public final static int TOPIC_TYPE_TALK = 1;
+    public final static int TOPIC_TYPE_VOTE = 2;
+    
     
 }
