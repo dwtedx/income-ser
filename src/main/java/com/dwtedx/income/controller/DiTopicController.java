@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.model.BaseModel;
 import com.dwtedx.income.model.TopicModel;
 import com.dwtedx.income.model.TopicvoteModel;
@@ -44,6 +45,16 @@ public class DiTopicController {
 		
 		ResultInfo resultInfo = new ResultInfo();
 		resultInfo.setBody(retult);
+		return resultInfo;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/sevetopicliked", method = RequestMethod.POST) 
+	public ResultInfo toSeveTopicLiked(@RequestBody MessageInfo<BaseModel> model) throws DiException{
+			
+		diTopicService.seveTopicLiked(model.getBody().getId());
+		
+		ResultInfo resultInfo = new ResultInfo();
 		return resultInfo;
 	}
 	

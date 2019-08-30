@@ -15,6 +15,7 @@ import com.dwtedx.income.dao.IDiTopictalkMapper;
 import com.dwtedx.income.dao.IDiTopicvoteMapper;
 import com.dwtedx.income.dao.IDiTopicvoteresultMapper;
 import com.dwtedx.income.dao.IDiUserInfoMapper;
+import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.model.BaseModel;
 import com.dwtedx.income.model.TopicModel;
 import com.dwtedx.income.model.TopicimgModel;
@@ -148,6 +149,20 @@ public class DiTopicServiceImpl implements IDiTopicService {
 			topicvoteModels.add(topicvoteModel);
 		}
 		return topicvoteModels;
+	}
+
+	@Override
+	public void seveTopicLiked(int id) throws DiException {
+		DiTopic pojo = diTopicMapper.selectByPrimaryKey(id);
+		if(null != pojo.getLiked()) {
+			pojo.setLiked(pojo.getLiked() + 1);
+		}else {
+			pojo.setLiked(1);
+		}
+		int result = diTopicMapper.updateByPrimaryKeySelective(pojo);
+		if(0 == result) {
+			throw new DiException("点赞失败，请稍后重试");
+		}
 	}
 	
 
