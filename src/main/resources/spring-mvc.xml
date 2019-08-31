@@ -14,23 +14,33 @@
 	<context:component-scan
 		base-package="com.dwtedx.income.controller" />
 	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
-	<bean id="mappingJacksonHttpMessageConverter"
-		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-		<property name="supportedMediaTypes">
-			<list>
-				<value>text/html;charset=UTF-8</value>
-			</list>
-		</property>
-	</bean>
-	<!-- 启动SpringMVC的注解功能，完成请求和注解Entity的映射 -->
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<ref bean="mappingJacksonHttpMessageConverter" />	<!-- JSON转换器 -->
-			</list>
-		</property>
-	</bean>
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper">
+					<bean class="com.dwtedx.income.extension.JsonObjectMapper"></bean>
+				</property>
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json; charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<!-- dwtedx json请求 -->
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.StringHttpMessageConverter" />
+			<bean
+				class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
 	<!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -49,18 +59,6 @@
 		<!-- 内存中的最大值 -->
 		<property name="maxInMemorySize" value="40960" />
 	</bean>
-
-	<!-- dwtedx json请求 -->
-	<mvc:annotation-driven>
-		<mvc:message-converters>
-			<bean
-				class="org.springframework.http.converter.StringHttpMessageConverter" />
-			<bean
-				class="org.springframework.http.converter.ResourceHttpMessageConverter" />
-			<bean
-				class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-		</mvc:message-converters>
-	</mvc:annotation-driven>
 
 	<!-- dwtedx 定义统一处理错误 -->
 	<bean id="exceptionHandler"

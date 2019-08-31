@@ -160,7 +160,6 @@ public class DiTopicServiceImpl implements IDiTopicService {
 			throw new DiException(r.toString());
 		}
 		
-		//数据库修改
 		TopicimgModel topicimgModel = new TopicimgModel();
 		topicimgModel.setPath("/" + putRet.key);		
 		return topicimgModel;
@@ -190,6 +189,8 @@ public class DiTopicServiceImpl implements IDiTopicService {
 			for (TopicimgModel topicimgModel : model.getTopicimg()) {
 				DiTopicimg topicimg = new DiTopicimg();
 				topicimg.setPath(topicimgModel.getPath());
+				topicimg.setWidth(topicimgModel.getWidth());
+				topicimg.setHeight(topicimgModel.getHeight());
 				topicimg.setTopicid(pojo.getId());
 				diTopicimgMapper.insertSelective(topicimg);
 			}

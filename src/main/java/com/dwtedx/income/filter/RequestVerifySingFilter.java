@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.alibaba.fastjson.JSON;
 import com.dwtedx.income.model.common.ResultInfo;
 import com.dwtedx.income.utility.ICConsants;
 import com.dwtedx.income.utility.MD5Util;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RequestVerifySingFilter extends OncePerRequestFilter {
 
@@ -40,7 +40,7 @@ public class RequestVerifySingFilter extends OncePerRequestFilter {
 			json = node.get("body").toString();// 获取voName
 
 			node = node.get("head");// 获取voName
-			String sing = node.get("sign").getTextValue();// 获取voName
+			String sing = node.get("sign").textValue();// 获取voName
 
 			// MD5
 			String md5Str = json + ";jFX024sn0gk08m8J630PJq7D787sWNnIQYLdwtedx199117??";

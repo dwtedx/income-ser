@@ -11,6 +11,10 @@ public class DiTopictalkimg {
 
     private String path;
 
+    private Integer width;
+
+    private Integer height;
+
     private String remark;
 
     private Integer deleteflag;
@@ -53,6 +57,22 @@ public class DiTopictalkimg {
 
     public void setPath(String path) {
         this.path = path == null ? null : path.trim();
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
     }
 
     public String getRemark() {

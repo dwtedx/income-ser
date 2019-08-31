@@ -26,6 +26,9 @@ public class TopicvoteModel {
     private int personnum;
     private String percent;
     private boolean checked;
+    
+    private String serialVersionUID;
+    private int addbutton;
 
     public int getId() {
         return id;
@@ -129,6 +132,22 @@ public class TopicvoteModel {
 
 	public void setChecked(boolean checked) {
 		this.checked = checked;
+	}
+
+	public String getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public void setSerialVersionUID(String serialVersionUID) {
+		this.serialVersionUID = serialVersionUID;
+	}
+
+	public int getAddbutton() {
+		return addbutton;
+	}
+
+	public void setAddbutton(int addbutton) {
+		this.addbutton = addbutton;
 	}
 
 	

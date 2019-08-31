@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +20,8 @@ import com.dwtedx.income.pojo.TbCategoryInfo;
 import com.dwtedx.income.pojo.TbItemInfo;
 import com.dwtedx.income.service.ITbActivityService;
 import com.dwtedx.income.service.ITbTaobaoService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
@@ -45,7 +44,7 @@ public class DiTaobaoExcelController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/search", method = RequestMethod.POST) 
-	public ResultInfo toSearch(@RequestBody MessageInfo<TaobaoModel> model) throws ApiException, JsonProcessingException, IOException{
+	public ResultInfo toSearch(@RequestBody MessageInfo<TaobaoModel> model) throws ApiException, IOException{
 		
 		long page = (model.getBody().getStart() / 20) + 1;
 		
@@ -88,7 +87,7 @@ public class DiTaobaoExcelController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/recommend", method = RequestMethod.POST) 
-	public ResultInfo toRecommend(@RequestBody MessageInfo<TaobaoModel> model) throws ApiException, JsonProcessingException, IOException{
+	public ResultInfo toRecommend(@RequestBody MessageInfo<TaobaoModel> model) throws ApiException, IOException{
 		
 		TaobaoClient client = new DefaultTaobaoClient("http://gw.api.taobao.com/router/rest", AppKey, AppSecret);
 		TbkItemRecommendGetRequest req = new TbkItemRecommendGetRequest();

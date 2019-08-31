@@ -53,6 +53,8 @@ public class TopicModel {
     
     private List<TopicimgModel> topicimg;
     private List<TopicvoteModel> topicvote;
+    
+    private String serialVersionUID;
 
     public int getId() {
         return id;
@@ -264,6 +266,14 @@ public class TopicModel {
 
 	public void setTopicvote(List<TopicvoteModel> topicvote) {
 		this.topicvote = topicvote;
+	}
+
+	public String getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public void setSerialVersionUID(String serialVersionUID) {
+		this.serialVersionUID = serialVersionUID;
 	}
 	
 	

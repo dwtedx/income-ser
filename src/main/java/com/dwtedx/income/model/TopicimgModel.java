@@ -12,6 +12,10 @@ public class TopicimgModel {
     private String name;
 
     private String path;
+    
+    private int width;
+
+    private int height;
 
     private String remark;
 
@@ -24,6 +28,11 @@ public class TopicimgModel {
     private Date updatetime;
 
     private int updateuser;
+    
+    //APP携带
+    private String serialVersionUID;
+    private CREATOR CREATOR;
+    private CREATOR mBounds;
 
     public int getId() {
         return id;
@@ -108,4 +117,60 @@ public class TopicimgModel {
     public void setUpdateuser(int updateuser) {
         this.updateuser = updateuser;
     }
+    
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public String getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public void setSerialVersionUID(String serialVersionUID) {
+		this.serialVersionUID = serialVersionUID;
+	}
+	
+	public CREATOR getCREATOR() {
+		return CREATOR;
+	}
+
+	public void setCREATOR(CREATOR cREATOR) {
+		CREATOR = cREATOR;
+	}
+	
+	public CREATOR getmBounds() {
+		return mBounds;
+	}
+
+	public void setmBounds(CREATOR mBounds) {
+		this.mBounds = mBounds;
+	}
+
+
+
+	public class CREATOR{
+		private String serialVersionUID;
+
+		public String getSerialVersionUID() {
+			return serialVersionUID;
+		}
+
+		public void setSerialVersionUID(String serialVersionUID) {
+			this.serialVersionUID = serialVersionUID;
+		}
+	}
+    
 }
