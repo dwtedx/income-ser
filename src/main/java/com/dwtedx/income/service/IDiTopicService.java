@@ -13,6 +13,8 @@ public interface IDiTopicService {
 	
 	public List<TopicModel> findTopics(BaseModel model, int userid);
 
+	public TopicModel findTopic(int id, int userid) throws DiException;
+	
 	public TopicimgModel uploadImg(String path, int userId) throws DiException;
 	
 	public void seveTopic(TopicModel model) throws DiException;

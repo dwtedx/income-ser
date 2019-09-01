@@ -14,6 +14,8 @@ import com.dwtedx.income.dao.IDiTopicMapper;
 import com.dwtedx.income.dao.IDiTopicimgMapper;
 import com.dwtedx.income.dao.IDiTopiclikeMapper;
 import com.dwtedx.income.dao.IDiTopictalkMapper;
+import com.dwtedx.income.dao.IDiTopictalkimgMapper;
+import com.dwtedx.income.dao.IDiTopictalklikeMapper;
 import com.dwtedx.income.dao.IDiTopicvoteMapper;
 import com.dwtedx.income.dao.IDiTopicvoteresultMapper;
 import com.dwtedx.income.dao.IDiUserInfoMapper;
@@ -21,11 +23,16 @@ import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.model.BaseModel;
 import com.dwtedx.income.model.TopicModel;
 import com.dwtedx.income.model.TopicimgModel;
+import com.dwtedx.income.model.TopictalkModel;
+import com.dwtedx.income.model.TopictalkimgModel;
 import com.dwtedx.income.model.TopicvoteModel;
 import com.dwtedx.income.model.TopicvoteresultModel;
 import com.dwtedx.income.pojo.DiTopic;
 import com.dwtedx.income.pojo.DiTopicimg;
 import com.dwtedx.income.pojo.DiTopiclike;
+import com.dwtedx.income.pojo.DiTopictalk;
+import com.dwtedx.income.pojo.DiTopictalkimg;
+import com.dwtedx.income.pojo.DiTopictalklike;
 import com.dwtedx.income.pojo.DiTopicvote;
 import com.dwtedx.income.pojo.DiTopicvoteresult;
 import com.dwtedx.income.pojo.DiUserInfo;
@@ -55,6 +62,10 @@ public class DiTopicServiceImpl implements IDiTopicService {
 	private IDiTopiclikeMapper diTopiclikeMapper;
 	@Resource
 	private IDiTopictalkMapper diTopictalkMapper;
+	@Resource
+	private IDiTopictalkimgMapper diTopictalkimgMapper;
+	@Resource
+	private IDiTopictalklikeMapper diTopictalklikeMapper;
 	@Resource
 	private IDiTopicvoteMapper diTopicvoteMapper;
 	@Resource
@@ -126,6 +137,85 @@ public class DiTopicServiceImpl implements IDiTopicService {
 			models.add(model);
 		}
 		return models;
+	}
+	
+	@Override
+	public TopicModel findTopic(int id, int userid) throws DiException {
+		DiTopic pojo = diTopicMapper.selectByPrimaryKey(id);
+		if(null == pojo) {
+			throw new DiException("话题异常");
+		}
+		
+		TopicModel model = modelMapper.map(pojo, TopicModel.class);
+		//查找用户
+		DiUserInfo userInfo = diUserInfoMapper.selectByPrimaryKey(pojo.getUserid());
+		model.setUsername(userInfo.getName());
+		model.setUserpath(userInfo.getHead());
+		//查找图片
+		List<DiTopicimg> topicimgs = diTopicimgMapper.selectInsTopicimgs(pojo.getId());
+		model.setTopicimg(modelMapper.map(topicimgs, new TypeToken<List<TopicimgModel>>() {}.getType()));
+		//查询回复数量
+		model.setTalkcount(diTopictalkMapper.selectTopictalkCount(pojo.getId()));
+		
+		//查找投票
+		//是否投过票
+		List<DiTopicvoteresult>  topicvoteresults =  diTopicvoteresultMapper.selectInsTopicvoteresultByUserId(pojo.getId(), userid);
+		if(null != topicvoteresults && topicvoteresults.size() > 0) {
+			model.setVoted(true);
+		}
+		
+		//投票结果
+		int allNum = diTopicvoteresultMapper.selectInsTopicvoteresultCount(pojo.getId(), 0);
+		model.setVotecount(allNum);
+		
+		List<TopicvoteModel> topicvoteModels = new ArrayList<TopicvoteModel>();
+		TopicvoteModel  topicvoteModel;
+		List<DiTopicvote> topicvotes = diTopicvoteMapper.selectInsTopicvoteByTopicId(pojo.getId());
+		for (DiTopicvote topicvote : topicvotes) {
+			topicvoteModel = modelMapper.map(topicvote, TopicvoteModel.class);
+			//当前用户是否已投票
+			for(DiTopicvoteresult voteresult : topicvoteresults) {
+				if(topicvote.getId() == voteresult.getTopicvoteid()) {
+					topicvoteModel.setChecked(true);
+				}
+			}
+			//计算
+			int itemNum = diTopicvoteresultMapper.selectInsTopicvoteresultCount(pojo.getId(), topicvote.getId());
+			topicvoteModel.setPersonnum(itemNum);
+			if(allNum > 0) {
+				float aVal = itemNum / (float)allNum;
+				aVal = aVal * 100;
+				topicvoteModel.setPercent(CommonUtility.zeroPlaces(aVal));
+			}else {
+				topicvoteModel.setPercent("0");
+			}
+			topicvoteModels.add(topicvoteModel);
+		}
+		model.setTopicvote(topicvoteModels);
+		
+		//查找回复
+		List<TopictalkModel> topictalkModels = new ArrayList<TopictalkModel>();
+		TopictalkModel topictalkModel = null;
+		List<DiTopictalk> topictalks = diTopictalkMapper.selectDiTopicTalks(model.getId());
+		for (int i = 0; i < topictalks.size(); i++) {
+			DiTopictalk topictalk = topictalks.get(i); 
+			topictalkModel = modelMapper.map(topictalk, TopictalkModel.class);
+			
+			//图片
+			List<DiTopictalkimg> topictalkimgs = diTopictalkimgMapper.selectDiTopictalkimgByTalk(topictalk.getId());
+			
+			//是否点赞
+			DiTopictalklike topictalklike = diTopictalklikeMapper.selectDiTopictalklikeByTalkAndUser(topictalk.getId(), userid);
+			topictalkModel.setUserLiked(null != topictalklike);
+			
+			//图片
+			topictalkModel.setTopictalkimg(modelMapper.map(topictalkimgs, new TypeToken<List<TopictalkimgModel>>() {}.getType()));
+						
+			topictalkModels.add(topictalkModel);
+		}
+		model.setTopictalk(topictalkModels);
+				
+		return model;
 	}
 	
 	@Override
@@ -267,6 +357,8 @@ public class DiTopicServiceImpl implements IDiTopicService {
 			throw new DiException("点赞失败，请稍后重试");
 		}
 	}
+
+	
 
 	
 

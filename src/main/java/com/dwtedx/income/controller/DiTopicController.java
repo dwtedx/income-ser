@@ -39,6 +39,17 @@ public class DiTopicController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "/findtopic", method = RequestMethod.POST) 
+	public ResultInfo toFindTopic(@RequestBody MessageInfo<BaseModel> model) throws DiException{
+			
+		TopicModel topic = diTopicService.findTopic(model.getBody().getId(), model.getHead().getUserId());
+		
+		ResultInfo resultInfo = new ResultInfo();
+		resultInfo.setBody(topic);
+		return resultInfo;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/uploadimg", method = RequestMethod.POST) 
 	public ResultInfo toUploadimg(@RequestBody MessageInfo<TopicimgModel> model) throws DiException{
 			
