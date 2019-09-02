@@ -3,6 +3,8 @@ package com.dwtedx.income.model;
 import java.util.Date;
 import java.util.List;
 
+import com.dwtedx.income.utility.CommonUtility;
+
 public class TopictalkModel {
     private int id;
 
@@ -100,6 +102,10 @@ public class TopictalkModel {
         return createtime;
     }
 
+    public String getCreatetimestr() {
+        return CommonUtility.stringDateFormart(createtime);
+    }
+    
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }

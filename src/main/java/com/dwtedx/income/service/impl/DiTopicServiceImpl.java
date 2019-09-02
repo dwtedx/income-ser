@@ -196,10 +196,14 @@ public class DiTopicServiceImpl implements IDiTopicService {
 		//查找回复
 		List<TopictalkModel> topictalkModels = new ArrayList<TopictalkModel>();
 		TopictalkModel topictalkModel = null;
+		DiUserInfo userInfoTalkDiUserInfo = null;
 		List<DiTopictalk> topictalks = diTopictalkMapper.selectDiTopicTalks(model.getId());
 		for (int i = 0; i < topictalks.size(); i++) {
 			DiTopictalk topictalk = topictalks.get(i); 
 			topictalkModel = modelMapper.map(topictalk, TopictalkModel.class);
+			//头像
+			userInfoTalkDiUserInfo = diUserInfoMapper.selectByPrimaryKey(topictalkModel.getUserid());
+			topictalkModel.setRemark(userInfoTalkDiUserInfo.getHead());
 			
 			//图片
 			List<DiTopictalkimg> topictalkimgs = diTopictalkimgMapper.selectDiTopictalkimgByTalk(topictalk.getId());
@@ -355,6 +359,33 @@ public class DiTopicServiceImpl implements IDiTopicService {
 		int result = diTopicMapper.updateByPrimaryKeySelective(pojo);
 		if(0 == result) {
 			throw new DiException("点赞失败，请稍后重试");
+		}
+	}
+
+	@Override
+	public void seveTopicTalk(TopictalkModel model) throws DiException {
+		if(model.getUserid() == 0) {
+			throw new DiException("请先登录哦");
+		}
+		if(CommonUtility.isEmpty(model.getContent())) {
+			throw new DiException("内容不能为空哦");
+		}
+		//更新参与人数
+		//List<DiTopictalk>  topictalks = diTopictalkMapper.selectDiTopictalkByUserId(model.getTopicid(), model.getUserid());
+		//if(model.getId() == 0 && null != topictalks && topictalks.size() > 0) {
+		//	throw new DiException("请不要重复参与哦");
+		//}
+		DiTopic topic = diTopicMapper.selectByPrimaryKey(model.getTopicid());
+		topic.setPeoplenum(topic.getPeoplenum() + 1);
+		diTopicMapper.updateByPrimaryKey(topic);
+				
+		DiTopictalk pojo = modelMapper.map(model, DiTopictalk.class);
+		pojo.setCreatetime(new Date());
+		//int result = 0;
+		if(pojo.getId() > 0) {
+			diTopictalkMapper.updateByPrimaryKeySelective(pojo);
+		}else {
+			diTopictalkMapper.insertSelective(pojo);
 		}
 	}
 

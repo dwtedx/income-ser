@@ -6,6 +6,7 @@ import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.model.BaseModel;
 import com.dwtedx.income.model.TopicModel;
 import com.dwtedx.income.model.TopicimgModel;
+import com.dwtedx.income.model.TopictalkModel;
 import com.dwtedx.income.model.TopicvoteModel;
 import com.dwtedx.income.model.TopicvoteresultModel;
 
@@ -22,5 +23,7 @@ public interface IDiTopicService {
 	public List<TopicvoteModel> seveVoteResult(TopicvoteresultModel body);
 
 	public void seveTopicLiked(int id, int userid) throws DiException;
+
+	public void seveTopicTalk(TopictalkModel body) throws DiException;
 
 }
