@@ -103,4 +103,14 @@ public class DiTopicController {
 	}
 	
 	
+	@ResponseBody
+	@RequestMapping(value = "/mytopic", method = RequestMethod.POST) 
+	public ResultInfo toMyTopic(@RequestBody MessageInfo<BaseModel> model){
+			
+		List<TopicModel> topics = diTopicService.findMyTopics(model.getBody(), model.getHead().getUserId());
+		
+		ResultInfo resultInfo = new ResultInfo();
+		resultInfo.setBody(topics);
+		return resultInfo;
+	}
 }

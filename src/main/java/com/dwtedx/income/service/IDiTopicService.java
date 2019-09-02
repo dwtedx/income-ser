@@ -25,5 +25,7 @@ public interface IDiTopicService {
 	public void seveTopicLiked(int id, int userid) throws DiException;
 
 	public void seveTopicTalk(TopictalkModel body) throws DiException;
+	
+	public List<TopicModel> findMyTopics(BaseModel model, int userid);
 
 }
