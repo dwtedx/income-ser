@@ -28,4 +28,6 @@ public interface IDiTopicService {
 	
 	public List<TopicModel> findMyTopics(BaseModel model, int userid);
 
+	public void seveTopicShare(int id, int userId, String sharetype) throws DiException;
+
 }

@@ -14,6 +14,7 @@ import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.model.BaseModel;
 import com.dwtedx.income.model.TopicModel;
 import com.dwtedx.income.model.TopicimgModel;
+import com.dwtedx.income.model.TopicshareModel;
 import com.dwtedx.income.model.TopictalkModel;
 import com.dwtedx.income.model.TopicvoteModel;
 import com.dwtedx.income.model.TopicvoteresultModel;
@@ -111,6 +112,16 @@ public class DiTopicController {
 		
 		ResultInfo resultInfo = new ResultInfo();
 		resultInfo.setBody(topics);
+		return resultInfo;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/sevetopicshare", method = RequestMethod.POST) 
+	public ResultInfo toSeveTopicShare(@RequestBody MessageInfo<TopicshareModel> model) throws DiException{
+			
+		diTopicService.seveTopicShare(model.getBody().getId(), model.getBody().getUserid(), model.getBody().getSharetype());
+		
+		ResultInfo resultInfo = new ResultInfo();
 		return resultInfo;
 	}
 }
