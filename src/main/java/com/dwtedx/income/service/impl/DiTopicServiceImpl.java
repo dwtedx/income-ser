@@ -490,4 +490,20 @@ public class DiTopicServiceImpl implements IDiTopicService {
 		}
 	}
 
+	@Override
+	public void deleteTopic(int id, int userid) throws DiException {
+		DiTopic pojo = diTopicMapper.selectByPrimaryKey(id);
+		if(null == pojo) {
+			throw new DiException("数据异常失败，请稍后重试");
+		}
+		if(userid != pojo.getUserid()) {
+			throw new DiException("只能删除自己的话题哦");
+		}
+		pojo.setDeleteflag(ICConsants.DELETEFALAG_DELETEED);
+		int result = diTopicMapper.updateByPrimaryKeySelective(pojo);
+		if (0 == result) {
+			throw new DiException("分享失败，请稍后重试");
+		}
+	}
+
 }

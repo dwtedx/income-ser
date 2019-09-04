@@ -30,4 +30,6 @@ public interface IDiTopicService {
 
 	public void seveTopicShare(int id, int userId, String sharetype) throws DiException;
 
+	public void deleteTopic(int id, int userid) throws DiException;
+
 }

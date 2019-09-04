@@ -124,4 +124,14 @@ public class DiTopicController {
 		ResultInfo resultInfo = new ResultInfo();
 		return resultInfo;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/deletetopic", method = RequestMethod.POST) 
+	public ResultInfo toDeleteTopic(@RequestBody MessageInfo<TopicModel> model) throws DiException{
+		
+		diTopicService.deleteTopic(model.getBody().getId(), model.getBody().getUserid());
+		
+		ResultInfo resultInfo = new ResultInfo();
+		return resultInfo;
+	}
 }
