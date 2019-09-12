@@ -15,6 +15,10 @@ public class DiVersion {
 
     private String apkurl;
 
+    private Integer audit;
+
+    private String remark;
+
     private Date createtime;
 
     private Date updatetime;
@@ -67,6 +71,22 @@ public class DiVersion {
 
     public void setApkurl(String apkurl) {
         this.apkurl = apkurl == null ? null : apkurl.trim();
+    }
+
+    public Integer getAudit() {
+        return audit;
+    }
+
+    public void setAudit(Integer audit) {
+        this.audit = audit;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Date getCreatetime() {
