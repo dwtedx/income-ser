@@ -20,7 +20,7 @@ public interface IDiTopicMapper {
 
     int updateByPrimaryKey(DiTopic record);
 	
-	@Select("select * from di_topic where deleteflag = 0 order by id desc LIMIT #{start,jdbcType=INTEGER}, #{length,jdbcType=INTEGER};")
+	@Select("select * from di_topic where deleteflag = 0 order by topping desc, id desc LIMIT #{start,jdbcType=INTEGER}, #{length,jdbcType=INTEGER};")
     List<DiTopic> selectTopics(@Param("start")int start, @Param("length")int length);
 	
 	@Select("select * from di_topic where deleteflag = 0 and userid = #{userid,jdbcType=INTEGER} order by id desc LIMIT #{start,jdbcType=INTEGER}, #{length,jdbcType=INTEGER};")

@@ -29,6 +29,8 @@ public class DiTopic {
 
     private String location;
 
+    private Integer topping;
+
     private String remark;
 
     private Integer deleteflag;
@@ -143,6 +145,14 @@ public class DiTopic {
 
     public void setLocation(String location) {
         this.location = location == null ? null : location.trim();
+    }
+
+    public Integer getTopping() {
+        return topping;
+    }
+
+    public void setTopping(Integer topping) {
+        this.topping = topping;
     }
 
     public String getRemark() {

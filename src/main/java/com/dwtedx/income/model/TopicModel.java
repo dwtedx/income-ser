@@ -32,6 +32,8 @@ public class TopicModel {
 
     private String location;
 
+    private int topping;
+    
     private String remark;
 
     private int deleteflag;
@@ -283,6 +285,14 @@ public class TopicModel {
 
 	public void setTopictalk(List<TopictalkModel> topictalk) {
 		this.topictalk = topictalk;
+	}
+
+	public int getTopping() {
+		return topping;
+	}
+
+	public void setTopping(int topping) {
+		this.topping = topping;
 	}
 	
 	

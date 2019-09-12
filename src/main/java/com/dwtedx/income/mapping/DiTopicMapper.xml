@@ -15,6 +15,7 @@
     <result column="longitude" property="longitude" jdbcType="VARCHAR" />
     <result column="latitude" property="latitude" jdbcType="VARCHAR" />
     <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="topping" property="topping" jdbcType="INTEGER" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="deleteflag" property="deleteflag" jdbcType="INTEGER" />
     <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
@@ -24,8 +25,8 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, userid, name, description, peoplenum, viewnum, type, multiple, liked, shared, 
-    longitude, latitude, location, remark, deleteflag, createtime, createuser, updatetime, 
-    updateuser
+    longitude, latitude, location, topping, remark, deleteflag, createtime, createuser, 
+    updatetime, updateuser
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -37,23 +38,23 @@
     delete from di_topic
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiTopic" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiTopic" >
     insert into di_topic (id, userid, name, 
       description, peoplenum, viewnum, 
       type, multiple, liked, 
       shared, longitude, latitude, 
-      location, remark, deleteflag, 
-      createtime, createuser, updatetime, 
-      updateuser)
+      location, topping, remark, 
+      deleteflag, createtime, createuser, 
+      updatetime, updateuser)
     values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{description,jdbcType=VARCHAR}, #{peoplenum,jdbcType=INTEGER}, #{viewnum,jdbcType=INTEGER}, 
       #{type,jdbcType=INTEGER}, #{multiple,jdbcType=INTEGER}, #{liked,jdbcType=INTEGER}, 
       #{shared,jdbcType=INTEGER}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
-      #{location,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{deleteflag,jdbcType=INTEGER}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}, 
-      #{updateuser,jdbcType=INTEGER})
+      #{location,jdbcType=VARCHAR}, #{topping,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{deleteflag,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=INTEGER}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiTopic" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiTopic" >
     insert into di_topic
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -94,6 +95,9 @@
       </if>
       <if test="location != null" >
         location,
+      </if>
+      <if test="topping != null" >
+        topping,
       </if>
       <if test="remark != null" >
         remark,
@@ -154,6 +158,9 @@
       <if test="location != null" >
         #{location,jdbcType=VARCHAR},
       </if>
+      <if test="topping != null" >
+        #{topping,jdbcType=INTEGER},
+      </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
@@ -213,6 +220,9 @@
       <if test="location != null" >
         location = #{location,jdbcType=VARCHAR},
       </if>
+      <if test="topping != null" >
+        topping = #{topping,jdbcType=INTEGER},
+      </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -248,6 +258,7 @@
       longitude = #{longitude,jdbcType=VARCHAR},
       latitude = #{latitude,jdbcType=VARCHAR},
       location = #{location,jdbcType=VARCHAR},
+      topping = #{topping,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       deleteflag = #{deleteflag,jdbcType=INTEGER},
       createtime = #{createtime,jdbcType=TIMESTAMP},
