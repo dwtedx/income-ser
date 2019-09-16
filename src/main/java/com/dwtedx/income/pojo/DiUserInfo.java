@@ -1,11 +1,15 @@
 package com.dwtedx.income.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.dwtedx.income.utility.CommonUtility;
 
-public class DiUserInfo {
-    private Integer id;
+public class DiUserInfo implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
 
     private String username;
     

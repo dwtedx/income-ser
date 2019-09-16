@@ -41,6 +41,7 @@ import com.dwtedx.income.pojo.DiUserInfo;
 import com.dwtedx.income.service.IDiTopicService;
 import com.dwtedx.income.utility.Base64ImageUtility;
 import com.dwtedx.income.utility.CommonUtility;
+import com.dwtedx.income.utility.EhcacheUtil;
 import com.dwtedx.income.utility.ICConsants;
 import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
@@ -53,6 +54,8 @@ import com.qiniu.util.Auth;
 
 @Service("diTopicService")
 public class DiTopicServiceImpl implements IDiTopicService {
+	
+	public static String MODEL_CACHE_FIND_TOPICS = "model_cache_find_topics";
 
 	@Resource
 	private IDiUserInfoMapper diUserInfoMapper;
@@ -81,17 +84,25 @@ public class DiTopicServiceImpl implements IDiTopicService {
 		modelMapper = new ModelMapper();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<TopicModel> findTopics(BaseModel bodymodel, int userid) {
+		//读取缓存
+		List<TopicModel> models = (ArrayList<TopicModel>) EhcacheUtil.getInstance().get(EhcacheUtil.MODE_LCACHE, MODEL_CACHE_FIND_TOPICS);
+		if(null != models && models.size() > 0) {
+			return models;
+		}
+		
+		//缓存为空的情况
+		models = new ArrayList<TopicModel>();
+		TopicModel model;
+		List<DiTopicimg> topicimgs;
+		DiUserInfo userInfo;
+		
 		List<DiTopic> pojos = diTopicMapper.selectTopics(bodymodel.getStart(), bodymodel.getLength());
 		pojos.addAll(1, diTopicMapper.selectTopping());//加载置顶
 		
-		List<TopicModel> models = new ArrayList<TopicModel>();
-		TopicModel model = null;
-		List<DiTopicimg> topicimgs;
-		DiUserInfo userInfo;
-		// models = modelMapper.map(itemlist, new TypeToken<List<TopicModel>>()
-		// {}.getType());
+		// models = modelMapper.map(itemlist, new TypeToken<List<TopicModel>>(){}.getType());
 		for (DiTopic pojo : pojos) {
 			model = modelMapper.map(pojo, TopicModel.class);
 			// 查找用户
@@ -144,6 +155,7 @@ public class DiTopicServiceImpl implements IDiTopicService {
 
 			models.add(model);
 		}
+		EhcacheUtil.getInstance().put(EhcacheUtil.MODE_LCACHE, MODEL_CACHE_FIND_TOPICS, models);
 		return models;
 	}
 
