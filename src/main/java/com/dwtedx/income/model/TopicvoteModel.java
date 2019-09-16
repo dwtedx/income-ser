@@ -1,9 +1,16 @@
 package com.dwtedx.income.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TopicvoteModel {
-    private int id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = {"serialVersionUID"})
+public class TopicvoteModel implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private int id;
 
     private int topicid;
 
@@ -27,7 +34,6 @@ public class TopicvoteModel {
     private String percent;
     private boolean checked;
     
-    private String serialVersionUID;
     private int addbutton;
 
     public int getId() {
@@ -132,14 +138,6 @@ public class TopicvoteModel {
 
 	public void setChecked(boolean checked) {
 		this.checked = checked;
-	}
-
-	public String getSerialVersionUID() {
-		return serialVersionUID;
-	}
-
-	public void setSerialVersionUID(String serialVersionUID) {
-		this.serialVersionUID = serialVersionUID;
 	}
 
 	public int getAddbutton() {

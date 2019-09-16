@@ -1,12 +1,16 @@
 package com.dwtedx.income.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import com.dwtedx.income.utility.CommonUtility;
 
-public class TopictalkModel {
-    private int id;
+public class TopictalkModel implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private int id;
 
     private int topicid;
 

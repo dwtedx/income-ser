@@ -1,12 +1,17 @@
 package com.dwtedx.income.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import com.dwtedx.income.utility.CommonUtility;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class TopicModel {
+@JsonIgnoreProperties(value = {"serialVersionUID"})
+public class TopicModel implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	private int id;
 
     private int userid;
@@ -58,8 +63,6 @@ public class TopicModel {
     private List<TopictalkModel> topictalk;
     private List<TopicvoteModel> topicvote;
     
-    private String serialVersionUID;
-
     public int getId() {
         return id;
     }
@@ -270,14 +273,6 @@ public class TopicModel {
 
 	public void setTopicvote(List<TopicvoteModel> topicvote) {
 		this.topicvote = topicvote;
-	}
-
-	public String getSerialVersionUID() {
-		return serialVersionUID;
-	}
-
-	public void setSerialVersionUID(String serialVersionUID) {
-		this.serialVersionUID = serialVersionUID;
 	}
 
 	public List<TopictalkModel> getTopictalk() {

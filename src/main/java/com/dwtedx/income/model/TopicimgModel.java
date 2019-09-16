@@ -1,11 +1,17 @@
 package com.dwtedx.income.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.dwtedx.income.utility.ICConsants;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class TopicimgModel {
-    private int id;
+@JsonIgnoreProperties(value = {"serialVersionUID", "CREATOR", "mBounds"})
+public class TopicimgModel implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private int id;
 
     private int topicid;
 
@@ -28,11 +34,6 @@ public class TopicimgModel {
     private Date updatetime;
 
     private int updateuser;
-    
-    //APP携带
-    private String serialVersionUID;
-    private CREATOR CREATOR;
-    private CREATOR mBounds;
 
     public int getId() {
         return id;
@@ -134,43 +135,5 @@ public class TopicimgModel {
 	public void setHeight(int height) {
 		this.height = height;
 	}
-
-	public String getSerialVersionUID() {
-		return serialVersionUID;
-	}
-
-	public void setSerialVersionUID(String serialVersionUID) {
-		this.serialVersionUID = serialVersionUID;
-	}
 	
-	public CREATOR getCREATOR() {
-		return CREATOR;
-	}
-
-	public void setCREATOR(CREATOR cREATOR) {
-		CREATOR = cREATOR;
-	}
-	
-	public CREATOR getmBounds() {
-		return mBounds;
-	}
-
-	public void setmBounds(CREATOR mBounds) {
-		this.mBounds = mBounds;
-	}
-
-
-
-	public class CREATOR{
-		private String serialVersionUID;
-
-		public String getSerialVersionUID() {
-			return serialVersionUID;
-		}
-
-		public void setSerialVersionUID(String serialVersionUID) {
-			this.serialVersionUID = serialVersionUID;
-		}
-	}
-    
 }
