@@ -84,7 +84,8 @@ public class DiTopicServiceImpl implements IDiTopicService {
 	@Override
 	public List<TopicModel> findTopics(BaseModel bodymodel, int userid) {
 		List<DiTopic> pojos = diTopicMapper.selectTopics(bodymodel.getStart(), bodymodel.getLength());
-
+		pojos.addAll(1, diTopicMapper.selectTopping());//加载置顶
+		
 		List<TopicModel> models = new ArrayList<TopicModel>();
 		TopicModel model = null;
 		List<DiTopicimg> topicimgs;
