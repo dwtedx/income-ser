@@ -20,7 +20,7 @@ public interface IDiTopicService {
 	
 	public void seveTopic(TopicModel model) throws DiException;
 	
-	public List<TopicvoteModel> seveVoteResult(TopicvoteresultModel body);
+	public List<TopicvoteModel> seveVoteResult(TopicvoteresultModel body) throws DiException;
 
 	public void seveTopicLiked(int id, int userid) throws DiException;
 

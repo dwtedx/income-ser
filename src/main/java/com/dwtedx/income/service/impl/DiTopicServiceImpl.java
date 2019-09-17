@@ -316,19 +316,25 @@ public class DiTopicServiceImpl implements IDiTopicService {
 	}
 
 	@Override
-	public List<TopicvoteModel> seveVoteResult(TopicvoteresultModel body) {
-		DiTopicvoteresult pojo = modelMapper.map(body, DiTopicvoteresult.class);
-		diTopicvoteresultMapper.insertSelective(pojo);
-		
+	public List<TopicvoteModel> seveVoteResult(TopicvoteresultModel model) throws DiException {
 		// 查找投票   是否投过票
-		List<DiTopicvoteresult> topicvoteresults = diTopicvoteresultMapper.selectInsTopicvoteresultByUserId(pojo.getTopicid(), pojo.getUserid());
-
+		List<DiTopicvoteresult> topicvoteresults = diTopicvoteresultMapper.selectInsTopicvoteresultByUserId(model.getTopicid(), model.getUserid());
+		if(null == topicvoteresults || topicvoteresults.size() == 0) {
+			//throw new DiException("你只有一票哦");
+			DiTopicvoteresult pojo = modelMapper.map(model, DiTopicvoteresult.class);
+			int result = diTopicvoteresultMapper.insertSelective(pojo);
+			if(result == 0) {
+				throw new DiException("投票保存失败");
+			}
+			topicvoteresults = diTopicvoteresultMapper.selectInsTopicvoteresultByUserId(model.getTopicid(), model.getUserid());
+		}
+		
 		// 投票结果
-		int allNum = diTopicvoteresultMapper.selectInsTopicvoteresultCount(pojo.getTopicid(), 0);
+		int allNum = diTopicvoteresultMapper.selectInsTopicvoteresultCount(model.getTopicid(), 0);
 
 		List<TopicvoteModel> topicvoteModels = new ArrayList<TopicvoteModel>();
 		TopicvoteModel topicvoteModel;
-		List<DiTopicvote> topicvotes = diTopicvoteMapper.selectInsTopicvoteByTopicId(pojo.getTopicid());
+		List<DiTopicvote> topicvotes = diTopicvoteMapper.selectInsTopicvoteByTopicId(model.getTopicid());
 		for (DiTopicvote topicvote : topicvotes) {
 			topicvoteModel = modelMapper.map(topicvote, TopicvoteModel.class);
 			// 当前用户是否已投票
@@ -338,7 +344,7 @@ public class DiTopicServiceImpl implements IDiTopicService {
 				}
 			}
 			// 计算
-			int itemNum = diTopicvoteresultMapper.selectInsTopicvoteresultCount(pojo.getTopicid(), topicvote.getId());
+			int itemNum = diTopicvoteresultMapper.selectInsTopicvoteresultCount(model.getTopicid(), topicvote.getId());
 			topicvoteModel.setPersonnum(itemNum);
 			if (allNum > 0) {
 				float aVal = itemNum / (float) allNum;

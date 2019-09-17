@@ -74,7 +74,7 @@ public class DiTopicController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/sevevoteresult", method = RequestMethod.POST) 
-	public ResultInfo toSeveVoteResult(@RequestBody MessageInfo<TopicvoteresultModel> model){
+	public ResultInfo toSeveVoteResult(@RequestBody MessageInfo<TopicvoteresultModel> model) throws DiException{
 			
 		List<TopicvoteModel> retult = diTopicService.seveVoteResult(model.getBody());
 		
