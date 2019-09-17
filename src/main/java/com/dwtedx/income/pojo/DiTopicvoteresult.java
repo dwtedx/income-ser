@@ -1,9 +1,13 @@
 package com.dwtedx.income.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class DiTopicvoteresult {
-    private Integer id;
+public class DiTopicvoteresult implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
 
     private Integer topicid;
 

@@ -2,11 +2,14 @@ package com.dwtedx.income.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.mybatis.caches.ehcache.EhcacheCache;
 
 import com.dwtedx.income.pojo.DiTopictalk;
 
+@CacheNamespace(implementation = EhcacheCache.class)
 public interface IDiTopictalkMapper {
     int deleteByPrimaryKey(Integer id);
 

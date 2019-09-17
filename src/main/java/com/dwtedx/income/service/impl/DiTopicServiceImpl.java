@@ -41,7 +41,6 @@ import com.dwtedx.income.pojo.DiUserInfo;
 import com.dwtedx.income.service.IDiTopicService;
 import com.dwtedx.income.utility.Base64ImageUtility;
 import com.dwtedx.income.utility.CommonUtility;
-import com.dwtedx.income.utility.EhcacheUtil;
 import com.dwtedx.income.utility.ICConsants;
 import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
@@ -84,17 +83,10 @@ public class DiTopicServiceImpl implements IDiTopicService {
 		modelMapper = new ModelMapper();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<TopicModel> findTopics(BaseModel bodymodel, int userid) {
-		//读取缓存
-		List<TopicModel> models = (ArrayList<TopicModel>) EhcacheUtil.getInstance().get(EhcacheUtil.MODE_LCACHE, MODEL_CACHE_FIND_TOPICS);
-		if(null != models && models.size() > 0) {
-			return models;
-		}
-		
-		//缓存为空的情况
-		models = new ArrayList<TopicModel>();
+	
+		List<TopicModel> models = new ArrayList<TopicModel>();
 		TopicModel model;
 		List<DiTopicimg> topicimgs;
 		DiUserInfo userInfo;
@@ -111,15 +103,13 @@ public class DiTopicServiceImpl implements IDiTopicService {
 			model.setUserpath(userInfo.getHead());
 			// 查找图片
 			topicimgs = diTopicimgMapper.selectInsTopicimgs(pojo.getId());
-			model.setTopicimg(modelMapper.map(topicimgs, new TypeToken<List<TopicimgModel>>() {
-			}.getType()));
+			model.setTopicimg(modelMapper.map(topicimgs, new TypeToken<List<TopicimgModel>>() {}.getType()));
 			// 查询回复数量
 			model.setTalkcount(diTopictalkMapper.selectTopictalkCount(pojo.getId()));
 
 			// 查找投票
 			// 是否投过票
-			List<DiTopicvoteresult> topicvoteresults = diTopicvoteresultMapper
-					.selectInsTopicvoteresultByUserId(pojo.getId(), userid);
+			List<DiTopicvoteresult> topicvoteresults = diTopicvoteresultMapper.selectInsTopicvoteresultByUserId(pojo.getId(), userid);
 			if (null != topicvoteresults && topicvoteresults.size() > 0) {
 				model.setVoted(true);
 			}
@@ -155,7 +145,6 @@ public class DiTopicServiceImpl implements IDiTopicService {
 
 			models.add(model);
 		}
-		EhcacheUtil.getInstance().put(EhcacheUtil.MODE_LCACHE, MODEL_CACHE_FIND_TOPICS, models);
 		return models;
 	}
 
@@ -302,8 +291,7 @@ public class DiTopicServiceImpl implements IDiTopicService {
 		}
 		pojo.setCreatetime(new Date());
 		int result = diTopicMapper.insertSelective(pojo);
-		//更新缓存
-		EhcacheUtil.getInstance().remove(EhcacheUtil.MODE_LCACHE, MODEL_CACHE_FIND_TOPICS);
+		
 		// 保存图片
 		if (result > 0 && null != model.getTopicimg() && model.getTopicimg().size() > 0) {
 			for (TopicimgModel topicimgModel : model.getTopicimg()) {
@@ -331,8 +319,6 @@ public class DiTopicServiceImpl implements IDiTopicService {
 	public List<TopicvoteModel> seveVoteResult(TopicvoteresultModel body) {
 		DiTopicvoteresult pojo = modelMapper.map(body, DiTopicvoteresult.class);
 		diTopicvoteresultMapper.insertSelective(pojo);
-		//更新缓存
-		EhcacheUtil.getInstance().remove(EhcacheUtil.MODE_LCACHE, MODEL_CACHE_FIND_TOPICS);
 		
 		// 查找投票   是否投过票
 		List<DiTopicvoteresult> topicvoteresults = diTopicvoteresultMapper.selectInsTopicvoteresultByUserId(pojo.getTopicid(), pojo.getUserid());
@@ -384,8 +370,7 @@ public class DiTopicServiceImpl implements IDiTopicService {
 			pojo.setLiked(1);
 		}
 		int result = diTopicMapper.updateByPrimaryKeySelective(pojo);
-		//更新缓存
-		EhcacheUtil.getInstance().remove(EhcacheUtil.MODE_LCACHE, MODEL_CACHE_FIND_TOPICS);
+		
 		if (0 == result) {
 			throw new DiException("点赞失败，请稍后重试");
 		}
@@ -417,8 +402,6 @@ public class DiTopicServiceImpl implements IDiTopicService {
 			diTopictalkMapper.updateByPrimaryKeySelective(pojo);
 		} else {
 			diTopictalkMapper.insertSelective(pojo);
-			//更新缓存
-			EhcacheUtil.getInstance().remove(EhcacheUtil.MODE_LCACHE, MODEL_CACHE_FIND_TOPICS);
 		}
 	}
 
@@ -504,8 +487,6 @@ public class DiTopicServiceImpl implements IDiTopicService {
 			pojo.setShared(1);
 		}
 		int result = diTopicMapper.updateByPrimaryKeySelective(pojo);
-		//更新缓存
-		EhcacheUtil.getInstance().remove(EhcacheUtil.MODE_LCACHE, MODEL_CACHE_FIND_TOPICS);
 		if (0 == result) {
 			throw new DiException("分享失败，请稍后重试");
 		}
@@ -522,8 +503,6 @@ public class DiTopicServiceImpl implements IDiTopicService {
 		}
 		pojo.setDeleteflag(ICConsants.DELETEFALAG_DELETEED);
 		int result = diTopicMapper.updateByPrimaryKeySelective(pojo);
-		//更新缓存
-		EhcacheUtil.getInstance().remove(EhcacheUtil.MODE_LCACHE, MODEL_CACHE_FIND_TOPICS);
 		if (0 == result) {
 			throw new DiException("分享失败，请稍后重试");
 		}

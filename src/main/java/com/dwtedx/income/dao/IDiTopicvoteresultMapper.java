@@ -2,11 +2,14 @@ package com.dwtedx.income.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.mybatis.caches.ehcache.EhcacheCache;
 
 import com.dwtedx.income.pojo.DiTopicvoteresult;
 
+@CacheNamespace(implementation = EhcacheCache.class)
 public interface IDiTopicvoteresultMapper {
     int deleteByPrimaryKey(Integer id);
 
