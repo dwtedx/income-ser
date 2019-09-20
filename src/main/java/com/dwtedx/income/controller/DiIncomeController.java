@@ -140,4 +140,21 @@ public class DiIncomeController {
 		resultInfo.setBody(resultIncome);
 		return resultInfo;
 	}
+	
+	/**
+	 * 2019-09-20 新增 开始节点第一条记录处理
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/updateincomebefortime", method = RequestMethod.POST) 
+	public ResultInfo updateIncomeBeForTime(@RequestBody MessageInfo<IncomeModel> model) throws DiException{
+		
+		IncomeModel modelBody = model.getBody();
+		this.diIncomeService.updateIncomeBeForTime(modelBody, model.getHead().getUserId());
+		
+		ResultInfo resultInfo = new ResultInfo();
+		return resultInfo;
+	}
+	
 }

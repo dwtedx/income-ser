@@ -1,6 +1,7 @@
 package com.dwtedx.income.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -302,6 +303,26 @@ public class DiIncomeServiceImpl implements IDiIncomeService {
 			}
 		}
 		return incomeModel;
+	}
+
+	@Override
+	public void updateIncomeBeForTime(IncomeModel modelBody, int userid) throws DiException {
+		if(0 == userid) {
+			throw new DiException("请先登录，同步云端记账时间");
+		}
+		List<DiIncome> startIncomes = diIncomeMapper.selectByRoleAndUserId(ICConsants.INCOME_ROLE_START, userid);
+		if(null == startIncomes || startIncomes.size() == 0) {
+			throw new DiException("您还未同步账目到云端");
+		}
+		
+		Date recordtime = CommonUtility.dateToString(modelBody.getRecordtime());
+		if(null == recordtime) {
+			throw new DiException("记账时间异常");
+		}
+		
+		DiIncome startIncome = startIncomes.get(0);
+		startIncome.setRecordtime(recordtime);
+		diIncomeMapper.updateByPrimaryKeySelective(startIncome);
 	}
 
 }

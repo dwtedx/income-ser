@@ -25,4 +25,6 @@ public interface IDiIncomeService {
 	public void saveIncomeSingleById(IncomeModel modelBody) throws DiException;
 	
 	public IncomeModel saveIncomeScanSingleById(IncomeModel modelBody) throws DiException;
+
+	public void updateIncomeBeForTime(IncomeModel modelBody, int userid) throws DiException;
 }
