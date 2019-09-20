@@ -16,6 +16,7 @@ import com.dwtedx.income.dao.ITbCategoryInfoMapper;
 import com.dwtedx.income.dao.ITbItemInfoMapper;
 import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.model.TaobaoModel;
+import com.dwtedx.income.model.TaobaoSearchItemModel;
 import com.dwtedx.income.pojo.TbCategoryInfo;
 import com.dwtedx.income.pojo.TbItemInfo;
 import com.dwtedx.income.service.ITbTaobaoService;
@@ -37,6 +38,27 @@ public class TbTaobaoService implements ITbTaobaoService {
 	@Resource
 	private ITbItemInfoMapper tbItemInfoMapper;
 
+	@Override
+	public List<TaobaoSearchItemModel> getSearchTaobaoItemInfo(TaobaoModel modelBody) throws DiException {
+		List<TbItemInfo> itemlist = tbItemInfoMapper.selectBySrarchKeyItem("%" + modelBody.getSearch() + "%", modelBody.getStart(), modelBody.getLength());
+		List<TaobaoSearchItemModel> models = new ArrayList<TaobaoSearchItemModel>();
+		TaobaoSearchItemModel model = null;
+		for (TbItemInfo tbItemInfo : itemlist) {
+			model = new TaobaoSearchItemModel();
+			model.setPict_url(tbItemInfo.getPictUrl());
+			model.setUser_type(tbItemInfo.getUserType());
+			model.setTitle(tbItemInfo.getTitle());
+			model.setZk_final_price(tbItemInfo.getZkFinalPrice());
+			model.setReserve_price(tbItemInfo.getReservePrice());
+			model.setTag_content(tbItemInfo.getTagContent());
+			model.setVolume(tbItemInfo.getVolume());
+			model.setNum_iid(tbItemInfo.getNumIid());
+			models.add(model);
+		}
+		return models;
+	}
+
+	
 	@Override
 	public List<TbItemInfo> getTopTaobaoItemInfo(TaobaoModel modelBody) throws DiException {
 		List<TbItemInfo> itemlist = tbItemInfoMapper.selectByTopTaobaoItem(modelBody.getStart(), modelBody.getLength());

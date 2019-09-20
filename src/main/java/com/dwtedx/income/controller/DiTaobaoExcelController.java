@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.model.TaobaoActivityInfo;
 import com.dwtedx.income.model.TaobaoModel;
+import com.dwtedx.income.model.TaobaoSearchItemModel;
 import com.dwtedx.income.model.common.MessageInfo;
 import com.dwtedx.income.model.common.ResultInfo;
 import com.dwtedx.income.pojo.TbCategoryInfo;
@@ -44,7 +45,25 @@ public class DiTaobaoExcelController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/search", method = RequestMethod.POST) 
-	public ResultInfo toSearch(@RequestBody MessageInfo<TaobaoModel> model) throws ApiException, IOException{
+	public ResultInfo toSearch(@RequestBody MessageInfo<TaobaoModel> model) throws DiException{
+		
+		List<TaobaoSearchItemModel> results = tbTaobaoService.getSearchTaobaoItemInfo(model.getBody());
+
+		ResultInfo resultInfo = new ResultInfo();
+		resultInfo.setBody(results);
+		return resultInfo;
+	}
+	
+	/**
+	 * 淘宝客api升级，已经不能用了，改为查自己数据库
+	 * @param model
+	 * @return
+	 * @throws ApiException
+	 * @throws IOException
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/searchtaobao", method = RequestMethod.POST) 
+	public ResultInfo toSearchTaobao(@RequestBody MessageInfo<TaobaoModel> model) throws ApiException, IOException{
 		
 		long page = (model.getBody().getStart() / 20) + 1;
 		

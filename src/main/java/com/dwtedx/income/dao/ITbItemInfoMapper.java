@@ -22,6 +22,15 @@ public interface ITbItemInfoMapper {
 
     int updateByPrimaryKey(TbItemInfo record);
     
+    /**
+     * 搜索
+     * @param cateId
+     * @param startNo
+     * @param lengthNo
+     * @return
+     */
+    List<TbItemInfo> selectBySrarchKeyItem(@Param("srarchKey")String srarchKey, @Param("startNo")Integer startNo, @Param("lengthNo")Integer lengthNo);
+    
     List<TbItemInfo> selectByTopTaobaoItem(@Param("startNo")Integer startNo, @Param("lengthNo")Integer lengthNo);
     
     List<TbItemInfo> selectByNineNineItem(@Param("startNo")Integer startNo, @Param("lengthNo")Integer lengthNo);

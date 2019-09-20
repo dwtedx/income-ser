@@ -5,11 +5,14 @@ import java.util.List;
 
 import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.model.TaobaoModel;
+import com.dwtedx.income.model.TaobaoSearchItemModel;
 import com.dwtedx.income.pojo.TbCategoryInfo;
 import com.dwtedx.income.pojo.TbItemInfo;
 
 public interface ITbTaobaoService {
 		
+	public List<TaobaoSearchItemModel> getSearchTaobaoItemInfo(TaobaoModel modelBody) throws DiException;
+	
 	public List<TbItemInfo> getTopTaobaoItemInfo(TaobaoModel modelBody) throws DiException;
 
 	public List<TbItemInfo> getTaobaoItemByCategoryId(TaobaoModel modelBody);
@@ -47,5 +50,5 @@ public interface ITbTaobaoService {
 	public List<TbItemInfo> getRandItem(TaobaoModel modelBody) throws DiException;
 
 	public List<TbItemInfo> getCategoryIdItem(TaobaoModel body) throws DiException;
-	
+
 }

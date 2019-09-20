@@ -54,6 +54,13 @@
     from tb_iteminfo
     where num_iid = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectBySrarchKeyItem" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from tb_iteminfo
+    where nick like #{srarchKey} or title like #{srarchKey} or store_name like #{srarchKey}
+    ORDER BY id asc LIMIT #{startNo}, #{lengthNo}
+  </select>
   <select id="selectByTopTaobaoItem" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />
