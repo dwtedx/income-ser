@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,6 +15,8 @@ import com.dwtedx.income.model.common.ResultInfo;
 import com.dwtedx.income.utility.ICConsants;
 
 public class IncomeHandlerException implements HandlerExceptionResolver {
+	
+	private static Logger logger = Logger.getLogger(IncomeHandlerException.class);
 
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 		try {
@@ -29,6 +32,7 @@ public class IncomeHandlerException implements HandlerExceptionResolver {
 			} else if (ex instanceof MyBatisSystemException) {
 				resultInfo.getHead().setMessage("服务器数据库连接失败，请稍后重试");
 			} else if (ex instanceof Exception) {
+				logger.error("IncomeException:" + ex);
 				resultInfo.getHead().setMessage("系统异常，请稍后重试");
 			}
 
