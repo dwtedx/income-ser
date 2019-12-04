@@ -32,8 +32,8 @@ public class IncomeHandlerException implements HandlerExceptionResolver {
 			} else if (ex instanceof MyBatisSystemException) {
 				resultInfo.getHead().setMessage("服务器数据库连接失败，请稍后重试");
 			} else if (ex instanceof Exception) {
-				logger.error("IncomeException:" + ex);
-				resultInfo.getHead().setMessage("系统异常，请稍后重试");
+				logger.error(ex.getMessage(), ex);
+				resultInfo.getHead().setMessage("服务器跑偏了，请稍后重试");
 			}
 
 			// ObjectMapper mapper = new ObjectMapper();
