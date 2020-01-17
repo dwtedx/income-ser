@@ -23,6 +23,6 @@ public interface IDiTopicimgMapper {
 
     int updateByPrimaryKey(DiTopicimg record);
 
-	@Select("select * from di_topicimg where topicid = #{topicid,jdbcType=INTEGER} order by id desc;")
+	@Select("select * from di_topicimg where topicid = #{topicid,jdbcType=INTEGER} order by id asc;")
     List<DiTopicimg> selectInsTopicimgs(@Param("topicid")int topicid);
 }
