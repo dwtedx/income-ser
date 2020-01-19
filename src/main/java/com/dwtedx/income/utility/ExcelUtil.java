@@ -198,8 +198,12 @@ public class ExcelUtil {
 			 HSSFRow row = sheet.createRow(i);
 			if(result.get(i) != null){
 				for(int j = 0; j < result.get(i).size() ; j ++){
+					String cellValString = "";
+					if(null != result.get(i) && null != result.get(i).get(j)) {
+						cellValString = result.get(i).get(j).toString();
+					}
 					HSSFCell cell = row.createCell(j);
-					cell.setCellValue(result.get(i).get(j).toString());
+					cell.setCellValue(cellValString);
 				}
 			}
 		}
