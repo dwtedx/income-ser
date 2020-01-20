@@ -16,6 +16,7 @@
     <result column="recordtimestart" property="recordtimestart" jdbcType="TIMESTAMP" />
     <result column="recordtimeend" property="recordtimeend" jdbcType="TIMESTAMP" />
     <result column="recordtype" property="recordtype" jdbcType="INTEGER" />
+    <result column="filepath" property="filepath" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="deleteflag" property="deleteflag" jdbcType="INTEGER" />
@@ -26,8 +27,8 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, userid, username, name, role, moneysumstart, moneysumend, type, typeid, account, 
-    accountid, recordtimestart, recordtimeend, recordtype, status, remark, deleteflag, 
-    createtime, createuser, updatetime, updateuser
+    accountid, recordtimestart, recordtimeend, recordtype, filepath, status, remark, 
+    deleteflag, createtime, createuser, updatetime, updateuser
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -39,25 +40,25 @@
     delete from di_expexcel
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiExpexcel" >
+  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiExpexcel" useGeneratedKeys="true" keyProperty="id">
     insert into di_expexcel (id, userid, username, 
       name, role, moneysumstart, 
       moneysumend, type, typeid, 
       account, accountid, recordtimestart, 
-      recordtimeend, recordtype, status, 
-      remark, deleteflag, createtime, 
-      createuser, updatetime, updateuser
-      )
+      recordtimeend, recordtype, filepath, 
+      status, remark, deleteflag, 
+      createtime, createuser, updatetime, 
+      updateuser)
     values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, #{moneysumstart,jdbcType=DECIMAL}, 
       #{moneysumend,jdbcType=DECIMAL}, #{type,jdbcType=VARCHAR}, #{typeid,jdbcType=VARCHAR}, 
       #{account,jdbcType=VARCHAR}, #{accountid,jdbcType=VARCHAR}, #{recordtimestart,jdbcType=TIMESTAMP}, 
-      #{recordtimeend,jdbcType=TIMESTAMP}, #{recordtype,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{deleteflag,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{createuser,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=INTEGER}
-      )
+      #{recordtimeend,jdbcType=TIMESTAMP}, #{recordtype,jdbcType=INTEGER}, #{filepath,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{deleteflag,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiExpexcel" >
+  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiExpexcel" useGeneratedKeys="true" keyProperty="id">
     insert into di_expexcel
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -101,6 +102,9 @@
       </if>
       <if test="recordtype != null" >
         recordtype,
+      </if>
+      <if test="filepath != null" >
+        filepath,
       </if>
       <if test="status != null" >
         status,
@@ -167,6 +171,9 @@
       <if test="recordtype != null" >
         #{recordtype,jdbcType=INTEGER},
       </if>
+      <if test="filepath != null" >
+        #{filepath,jdbcType=VARCHAR},
+      </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
@@ -232,6 +239,9 @@
       <if test="recordtype != null" >
         recordtype = #{recordtype,jdbcType=INTEGER},
       </if>
+      <if test="filepath != null" >
+        filepath = #{filepath,jdbcType=VARCHAR},
+      </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
@@ -271,6 +281,7 @@
       recordtimestart = #{recordtimestart,jdbcType=TIMESTAMP},
       recordtimeend = #{recordtimeend,jdbcType=TIMESTAMP},
       recordtype = #{recordtype,jdbcType=INTEGER},
+      filepath = #{filepath,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       deleteflag = #{deleteflag,jdbcType=INTEGER},

@@ -568,6 +568,9 @@ public class CommonUtility {
      * @author qinyl http://dwtedx.com
      */
     public static Date dateToString(String date) {
+    	if(isEmpty(date)) {
+    		return null;
+    	}
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("zh", "CN"));
         Date time = null;
         try {

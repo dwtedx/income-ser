@@ -20,7 +20,10 @@ public interface IDiExpexcelMapper {
 
     int updateByPrimaryKey(DiExpexcel record);
 
-	@Select("select * from di_expexcel where deleteflag = 0 and userid = #{userid,jdbcType=INTEGER} order by id desc LIMIT #{start,jdbcType=INTEGER}, #{length,jdbcType=INTEGER};")    
+	@Select("select * from di_expexcel where deleteflag = 0 and userid = #{userid,jdbcType=INTEGER} order by id desc LIMIT #{start,jdbcType=INTEGER}, #{length,jdbcType=INTEGER};")
 	List<DiExpexcel> selectExpExcels(@Param("start")int start, @Param("length")int length, @Param("userid")int userid);
+	
+	@Select("select * from di_expexcel where deleteflag = 0 and userid = #{userid,jdbcType=INTEGER} order by id desc LIMIT 1;")    
+	DiExpexcel selectByLastExp(@Param("userid")int userid);
 	
 }

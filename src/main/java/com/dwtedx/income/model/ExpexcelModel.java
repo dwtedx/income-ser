@@ -31,6 +31,8 @@ public class ExpexcelModel {
 
     private int recordtype;
     
+    private String filepath;
+    
     private int status;
 
     private String remark;
@@ -211,6 +213,14 @@ public class ExpexcelModel {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getFilepath() {
+		return filepath;
+	}
+
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
 	}
     
 }

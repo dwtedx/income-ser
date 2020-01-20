@@ -32,6 +32,8 @@ public class DiExpexcel {
 
     private Integer recordtype;
 
+    private String filepath;
+
     private Integer status;
 
     private String remark;
@@ -156,6 +158,14 @@ public class DiExpexcel {
 
     public void setRecordtype(Integer recordtype) {
         this.recordtype = recordtype;
+    }
+
+    public String getFilepath() {
+        return filepath;
+    }
+
+    public void setFilepath(String filepath) {
+        this.filepath = filepath == null ? null : filepath.trim();
     }
 
     public Integer getStatus() {

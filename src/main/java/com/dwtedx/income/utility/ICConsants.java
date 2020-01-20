@@ -34,8 +34,10 @@ public class ICConsants {
     public final static String QINIU_SECRETKEY = "rZkU4fmmwR3qMAuxJ6U6NWZ3ZR372mGGwEjtR__k";
     public final static String BUCKET_ICHEAD = "ichead";
     public final static String BUCKET_ICIMAGES = "icimages";
+    public final static String BUCKET_ICFILE = "icfile";
     public final static String ICHEAD_HTTP_URL = "http://ichead.dwtedx.com/";
     public final static String ITOPIC_HTTP_URL = "http://icimages.dwtedx.com";
+    public final static String ICFILE_HTTP_URL = "http://icfile.dwtedx.com";
     
     
     public final static int INCOME_RECORD_TYPE_0 = 0;//普通记账

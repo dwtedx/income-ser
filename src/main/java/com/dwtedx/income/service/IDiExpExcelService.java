@@ -12,6 +12,8 @@ public interface IDiExpExcelService {
 
 	public ExpexcelModel findExpExcel(int id, int userid) throws DiException;
 	
+	public ExpexcelModel findLastExpExcel(int userId);
+	
 	public void deleteExpExcel(int id, int userid) throws DiException;
 	
 	public int poolCount(ExpexcelModel model) throws DiException;

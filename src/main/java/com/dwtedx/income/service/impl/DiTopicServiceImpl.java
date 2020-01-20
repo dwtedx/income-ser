@@ -44,9 +44,9 @@ import com.dwtedx.income.utility.CommonUtility;
 import com.dwtedx.income.utility.ICConsants;
 import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
-import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
+import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
@@ -243,7 +243,7 @@ public class DiTopicServiceImpl implements IDiTopicService {
 		}
 
 		// 构造一个带指定Zone对象的配置类
-		Configuration cfg = new Configuration(Zone.zone2());
+		Configuration cfg = new Configuration(Region.region2());
 		// ...其他参数参考类注释
 		UploadManager uploadManager = new UploadManager(cfg);
 		// ...生成上传凭证，然后准备上传

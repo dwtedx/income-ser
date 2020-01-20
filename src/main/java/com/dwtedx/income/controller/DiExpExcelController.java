@@ -14,7 +14,6 @@ import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.model.BaseModel;
 import com.dwtedx.income.model.ExpexcelModel;
 import com.dwtedx.income.model.IdModel;
-import com.dwtedx.income.model.TopicModel;
 import com.dwtedx.income.model.common.MessageInfo;
 import com.dwtedx.income.model.common.ResultInfo;
 import com.dwtedx.income.service.IDiExpExcelService;
@@ -48,13 +47,15 @@ public class DiExpExcelController {
 		return resultInfo;
 	}
 	
+
 	@ResponseBody
-	@RequestMapping(value = "/deletetopic", method = RequestMethod.POST) 
-	public ResultInfo toDeleteTopic(@RequestBody MessageInfo<TopicModel> model) throws DiException{
-		
-		diExpExcelService.deleteExpExcel(model.getBody().getId(), model.getBody().getUserid());
+	@RequestMapping(value = "/findlast", method = RequestMethod.POST) 
+	public ResultInfo toFindLast(@RequestBody MessageInfo<BaseModel> model) throws DiException{
+			
+		ExpexcelModel expexcelModel  = diExpExcelService.findLastExpExcel(model.getHead().getUserId());
 		
 		ResultInfo resultInfo = new ResultInfo();
+		resultInfo.setBody(expexcelModel);
 		return resultInfo;
 	}
 	

@@ -188,9 +188,9 @@ public class ExcelUtil {
 		}
 	}
 	
-	public static void writeExcel(ArrayList<ArrayList<Object>> result,String path){
+	public static boolean writeExcel(ArrayList<ArrayList<Object>> result,String path){
 		if(result == null){
-			return;
+			return false;
 		}
 		HSSFWorkbook wb = new HSSFWorkbook();
 		HSSFSheet sheet = wb.createSheet("sheet1");
@@ -213,6 +213,7 @@ public class ExcelUtil {
             wb.write(os);
         } catch (IOException e){
             e.printStackTrace();
+            return false;
         }
         byte[] content = os.toByteArray();
         File file = new File(path);//Excel文件生成后存储的位置。
@@ -225,7 +226,9 @@ public class ExcelUtil {
             fos.close();
         }catch (Exception e){
             e.printStackTrace();
-        }           
+            return false;
+        }
+        return true;
 	}
 	
 	public static DecimalFormat getDf() {
