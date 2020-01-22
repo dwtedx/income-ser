@@ -20,12 +20,14 @@
     <result column="sinaopenid" property="sinaopenid" jdbcType="VARCHAR" />
     <result column="qqopenid" property="qqopenid" jdbcType="VARCHAR" />
     <result column="clientsid" property="clientsid" jdbcType="VARCHAR" />
+    <result column="vipflag" property="vipflag" jdbcType="INTEGER" />
+    <result column="vipendtime" property="vipendtime" jdbcType="TIMESTAMP" />
     <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
     <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, username, name, phone, email, password, head, work, weixin, qq, sex, birthday, signature, weixinopenid, sinaopenid, 
-    qqopenid, clientsid, createtime, updatetime
+    qqopenid, clientsid, vipflag, vipendtime, createtime, updatetime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -80,13 +82,13 @@
     insert into di_userinfo (id, username, name, phone, 
       email, password, head, 
       work, weixin, qq, sex, birthday, signature,  
-      weixinopenid, sinaopenid, qqopenid, clientsid, 
-      createtime, updatetime)
+      weixinopenid, sinaopenid, qqopenid, clientsid, vipflag, 
+      vipendtime, createtime, updatetime)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{head,jdbcType=VARCHAR}, 
       #{work,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
       #{signature,jdbcType=VARCHAR}, #{weixinopenid,jdbcType=VARCHAR}, #{sinaopenid,jdbcType=VARCHAR}, #{qqopenid,jdbcType=VARCHAR}, #{clientsid,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+      #{vipflag,jdbcType=INTEGER}, #{vipendtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiUserInfo" >
     insert into di_userinfo
@@ -141,6 +143,12 @@
       </if>
       <if test="clientsid != null" >
         clientsid,
+      </if>
+      <if test="vipflag != null" >
+        vipflag,
+      </if>
+      <if test="vipendtime != null" >
+        vipendtime,
       </if>
       <if test="createtime != null" >
         createtime,
@@ -201,6 +209,12 @@
       <if test="clientsid != null" >
         #{clientsid,jdbcType=VARCHAR},
       </if>
+      <if test="vipflag != null" >
+        #{vipflag,jdbcType=INTEGER},
+      </if>
+      <if test="vipendtime != null" >
+        #{vipendtime,jdbcType=TIMESTAMP},
+      </if>
       <if test="createtime != null" >
         #{createtime,jdbcType=TIMESTAMP},
       </if>
@@ -260,6 +274,12 @@
       <if test="clientsid != null" >
         clientsid = #{clientsid,jdbcType=VARCHAR},
       </if>
+      <if test="vipflag != null" >
+        vipflag = #{vipflag,jdbcType=INTEGER},
+      </if>
+      <if test="vipendtime != null" >
+        vipendtime = #{vipendtime,jdbcType=TIMESTAMP},
+      </if>
       <if test="createtime != null" >
         createtime = #{createtime,jdbcType=TIMESTAMP},
       </if>
@@ -287,6 +307,8 @@
       sinaopenid = #{sinaopenid,jdbcType=VARCHAR},
       qqopenid = #{qqopenid,jdbcType=VARCHAR},
       clientsid = #{clientsid,jdbcType=VARCHAR},
+      vipflag = #{vipflag,jdbcType=INTEGER},
+      vipendtime = #{vipendtime,jdbcType=TIMESTAMP},
       createtime = #{createtime,jdbcType=TIMESTAMP},
       updatetime = #{updatetime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

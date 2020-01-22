@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwtedx.income.dao.IDiUservipinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.dwtedx.income.pojo.DiUservipinfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="starttime" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="payaccount" property="payaccount" jdbcType="DECIMAL" />
+    <result column="totalpayaccount" property="totalpayaccount" jdbcType="DECIMAL" />
+    <result column="paytype" property="paytype" jdbcType="INTEGER" />
+    <result column="paytime" property="paytime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="deleteflag" property="deleteflag" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="createuser" property="createuser" jdbcType="INTEGER" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="updateuser" property="updateuser" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userid, starttime, endtime, type, payaccount, totalpayaccount, paytype, paytime, 
+    remark, deleteflag, createtime, createuser, updatetime, updateuser
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from di_uservipinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from di_uservipinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiUservipinfo" >
+    insert into di_uservipinfo (id, userid, starttime, 
+      endtime, type, payaccount, 
+      totalpayaccount, paytype, paytime, 
+      remark, deleteflag, createtime, 
+      createuser, updatetime, updateuser
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{starttime,jdbcType=TIMESTAMP}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, #{payaccount,jdbcType=DECIMAL}, 
+      #{totalpayaccount,jdbcType=DECIMAL}, #{paytype,jdbcType=INTEGER}, #{paytime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{deleteflag,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{createuser,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiUservipinfo" >
+    insert into di_uservipinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="starttime != null" >
+        starttime,
+      </if>
+      <if test="endtime != null" >
+        endtime,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="payaccount != null" >
+        payaccount,
+      </if>
+      <if test="totalpayaccount != null" >
+        totalpayaccount,
+      </if>
+      <if test="paytype != null" >
+        paytype,
+      </if>
+      <if test="paytime != null" >
+        paytime,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="deleteflag != null" >
+        deleteflag,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="payaccount != null" >
+        #{payaccount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalpayaccount != null" >
+        #{totalpayaccount,jdbcType=DECIMAL},
+      </if>
+      <if test="paytype != null" >
+        #{paytype,jdbcType=INTEGER},
+      </if>
+      <if test="paytime != null" >
+        #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteflag != null" >
+        #{deleteflag,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dwtedx.income.pojo.DiUservipinfo" >
+    update di_uservipinfo
+    <set >
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null" >
+        starttime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="payaccount != null" >
+        payaccount = #{payaccount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalpayaccount != null" >
+        totalpayaccount = #{totalpayaccount,jdbcType=DECIMAL},
+      </if>
+      <if test="paytype != null" >
+        paytype = #{paytype,jdbcType=INTEGER},
+      </if>
+      <if test="paytime != null" >
+        paytime = #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteflag != null" >
+        deleteflag = #{deleteflag,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        updateuser = #{updateuser,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dwtedx.income.pojo.DiUservipinfo" >
+    update di_uservipinfo
+    set userid = #{userid,jdbcType=INTEGER},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      payaccount = #{payaccount,jdbcType=DECIMAL},
+      totalpayaccount = #{totalpayaccount,jdbcType=DECIMAL},
+      paytype = #{paytype,jdbcType=INTEGER},
+      paytime = #{paytime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      deleteflag = #{deleteflag,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      createuser = #{createuser,jdbcType=INTEGER},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

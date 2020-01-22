@@ -34,6 +34,10 @@ public class UserInfoModel extends BaseModel{
 
     private String qqopenid;
 
+    private int vipflag;
+
+    private String vipendtime;
+    
     private String createtime;
 
     private String updatetime;
@@ -190,6 +194,22 @@ public class UserInfoModel extends BaseModel{
 
 	public void setSignature(String signature) {
 		this.signature = signature;
+	}
+
+	public int getVipflag() {
+		return vipflag;
+	}
+
+	public void setVipflag(int vipflag) {
+		this.vipflag = vipflag;
+	}
+
+	public String getVipendtime() {
+		return vipendtime;
+	}
+
+	public void setVipendtime(String vipendtime) {
+		this.vipendtime = vipendtime;
 	}
     
 }

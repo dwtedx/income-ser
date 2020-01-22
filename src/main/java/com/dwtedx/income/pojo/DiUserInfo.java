@@ -44,6 +44,10 @@ public class DiUserInfo implements Serializable{
     private String qqopenid;
     
     private String clientsid;
+    
+    private Integer vipflag;
+
+    private Date vipendtime;
 
     private Date createtime;
 
@@ -204,6 +208,22 @@ public class DiUserInfo implements Serializable{
 
 	public void setSignature(String signature) {
 		this.signature = signature;
+	}
+
+	public Integer getVipflag() {
+		return vipflag;
+	}
+
+	public void setVipflag(Integer vipflag) {
+		this.vipflag = vipflag;
+	}
+
+	public Date getVipendtime() {
+		return vipendtime;
+	}
+
+	public void setVipendtime(Date vipendtime) {
+		this.vipendtime = vipendtime;
 	}
 	
 }
