@@ -48,6 +48,8 @@ public class DiUserInfo implements Serializable{
     private Integer vipflag;
 
     private Date vipendtime;
+    
+    private String vipendtimeStr;
 
     private Date createtime;
 
@@ -224,6 +226,11 @@ public class DiUserInfo implements Serializable{
 
 	public void setVipendtime(Date vipendtime) {
 		this.vipendtime = vipendtime;
+		this.vipendtimeStr = CommonUtility.stringDateFormartyyyyMMdd(vipendtime);
+	}
+
+	public String getVipendtimeStr() {
+		return vipendtimeStr;
 	}
 	
 }
