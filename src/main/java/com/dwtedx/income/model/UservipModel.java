@@ -1,20 +1,20 @@
-package com.dwtedx.income.pojo;
+package com.dwtedx.income.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class DiUservipinfo {
-    private Integer id;
+public class UservipModel {
+	private int id;
 
-    private Integer userid;
+    private int userid;
 
-    private Integer months;
+    private int months;
 
     private Date starttime;
 
     private Date endtime;
 
-    private Integer type;
+    private int type;
 
     private String typename;
 
@@ -24,43 +24,43 @@ public class DiUservipinfo {
 
     private BigDecimal paytotalaccount;
 
-    private Integer paytype;
+    private int paytype;
 
     private Date paytime;
 
     private String remark;
 
-    private Integer deleteflag;
+    private int deleteflag;
 
     private Date createtime;
 
-    private Integer createuser;
+    private int createuser;
 
     private Date updatetime;
 
-    private Integer updateuser;
+    private int updateuser;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getUserid() {
+    public int getUserid() {
         return userid;
     }
 
-    public void setUserid(Integer userid) {
+    public void setUserid(int userid) {
         this.userid = userid;
     }
 
-    public Integer getMonths() {
+    public int getMonths() {
         return months;
     }
 
-    public void setMonths(Integer months) {
+    public void setMonths(int months) {
         this.months = months;
     }
 
@@ -80,11 +80,11 @@ public class DiUservipinfo {
         this.endtime = endtime;
     }
 
-    public Integer getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -120,11 +120,11 @@ public class DiUservipinfo {
         this.paytotalaccount = paytotalaccount;
     }
 
-    public Integer getPaytype() {
+    public int getPaytype() {
         return paytype;
     }
 
-    public void setPaytype(Integer paytype) {
+    public void setPaytype(int paytype) {
         this.paytype = paytype;
     }
 
@@ -144,11 +144,11 @@ public class DiUservipinfo {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public Integer getDeleteflag() {
+    public int getDeleteflag() {
         return deleteflag;
     }
 
-    public void setDeleteflag(Integer deleteflag) {
+    public void setDeleteflag(int deleteflag) {
         this.deleteflag = deleteflag;
     }
 
@@ -160,11 +160,11 @@ public class DiUservipinfo {
         this.createtime = createtime;
     }
 
-    public Integer getCreateuser() {
+    public int getCreateuser() {
         return createuser;
     }
 
-    public void setCreateuser(Integer createuser) {
+    public void setCreateuser(int createuser) {
         this.createuser = createuser;
     }
 
@@ -176,11 +176,11 @@ public class DiUservipinfo {
         this.updatetime = updatetime;
     }
 
-    public Integer getUpdateuser() {
+    public int getUpdateuser() {
         return updateuser;
     }
 
-    public void setUpdateuser(Integer updateuser) {
+    public void setUpdateuser(int updateuser) {
         this.updateuser = updateuser;
     }
 }

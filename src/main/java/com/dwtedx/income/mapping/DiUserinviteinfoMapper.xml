@@ -5,8 +5,10 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="userid" property="userid" jdbcType="INTEGER" />
     <result column="inviteuserid" property="inviteuserid" jdbcType="INTEGER" />
+    <result column="invitephone" property="invitephone" jdbcType="VARCHAR" />
     <result column="invitetime" property="invitetime" jdbcType="TIMESTAMP" />
     <result column="givevip" property="givevip" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="deleteflag" property="deleteflag" jdbcType="INTEGER" />
     <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
@@ -15,8 +17,8 @@
     <result column="updateuser" property="updateuser" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, userid, inviteuserid, invitetime, givevip, remark, deleteflag, createtime, createuser, 
-    updatetime, updateuser
+    id, userid, inviteuserid, invitephone, invitetime, givevip, status, remark, deleteflag, 
+    createtime, createuser, updatetime, updateuser
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -30,13 +32,15 @@
   </delete>
   <insert id="insert" parameterType="com.dwtedx.income.pojo.DiUserinviteinfo" >
     insert into di_userinviteinfo (id, userid, inviteuserid, 
-      invitetime, givevip, remark, 
-      deleteflag, createtime, createuser, 
-      updatetime, updateuser)
+      invitephone, invitetime, givevip, 
+      status, remark, deleteflag, 
+      createtime, createuser, updatetime, 
+      updateuser)
     values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{inviteuserid,jdbcType=INTEGER}, 
-      #{invitetime,jdbcType=TIMESTAMP}, #{givevip,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{deleteflag,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=INTEGER}, 
-      #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=INTEGER})
+      #{invitephone,jdbcType=VARCHAR}, #{invitetime,jdbcType=TIMESTAMP}, #{givevip,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{deleteflag,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiUserinviteinfo" >
     insert into di_userinviteinfo
@@ -50,11 +54,17 @@
       <if test="inviteuserid != null" >
         inviteuserid,
       </if>
+      <if test="invitephone != null" >
+        invitephone,
+      </if>
       <if test="invitetime != null" >
         invitetime,
       </if>
       <if test="givevip != null" >
         givevip,
+      </if>
+      <if test="status != null" >
+        status,
       </if>
       <if test="remark != null" >
         remark,
@@ -85,11 +95,17 @@
       <if test="inviteuserid != null" >
         #{inviteuserid,jdbcType=INTEGER},
       </if>
+      <if test="invitephone != null" >
+        #{invitephone,jdbcType=VARCHAR},
+      </if>
       <if test="invitetime != null" >
         #{invitetime,jdbcType=TIMESTAMP},
       </if>
       <if test="givevip != null" >
         #{givevip,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -120,11 +136,17 @@
       <if test="inviteuserid != null" >
         inviteuserid = #{inviteuserid,jdbcType=INTEGER},
       </if>
+      <if test="invitephone != null" >
+        invitephone = #{invitephone,jdbcType=VARCHAR},
+      </if>
       <if test="invitetime != null" >
         invitetime = #{invitetime,jdbcType=TIMESTAMP},
       </if>
       <if test="givevip != null" >
         givevip = #{givevip,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
@@ -151,8 +173,10 @@
     update di_userinviteinfo
     set userid = #{userid,jdbcType=INTEGER},
       inviteuserid = #{inviteuserid,jdbcType=INTEGER},
+      invitephone = #{invitephone,jdbcType=VARCHAR},
       invitetime = #{invitetime,jdbcType=TIMESTAMP},
       givevip = #{givevip,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       deleteflag = #{deleteflag,jdbcType=INTEGER},
       createtime = #{createtime,jdbcType=TIMESTAMP},

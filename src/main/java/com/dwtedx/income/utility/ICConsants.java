@@ -51,5 +51,8 @@ public class ICConsants {
     public final static int TOPIC_TYPE_TALK = 1;
     public final static int TOPIC_TYPE_VOTE = 2;
     
-    
+    //0:充值VIp 1:活动获得VIP
+    public final static int VIP_TYPE_BUY = 0;
+    public final static int VIP_TYPE_GIVE = 1;
+
 }

@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.dwtedx.income.model.common.ResultInfo;
 import com.dwtedx.income.utility.ICConsants;
 import com.dwtedx.income.utility.MD5Util;
@@ -32,8 +33,10 @@ public class RequestVerifySingFilter extends OncePerRequestFilter {
 		String json = HttpHelper.getBodyString(requestWrapper);
 		logger.info("request:" + json);
 
-		//不拦截 index.html
-		if (!"".equals(json)) {
+		boolean isJson = isJson(json);
+
+		// 不拦截 index.html
+		if (isJson) {
 			// 准备工作 传入vo请参照第一篇里面的实体。此处不再重新贴上代码 浪费大家时间
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode node = mapper.readTree(json);// 这里的JsonNode和XML里面的Node很像
@@ -75,10 +78,22 @@ public class RequestVerifySingFilter extends OncePerRequestFilter {
 					e.printStackTrace();
 				}
 			}
-		}else{
+		} else {
 			filterChain.doFilter(requestWrapper, response);
 		}
 
+	}
+
+	private boolean isJson(String str) {
+		if("".equals(str)) {
+			return false;
+		}
+		try {
+			JSONObject.parseObject(str);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }

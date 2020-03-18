@@ -1,6 +1,10 @@
-<html lang="zh-cn" data-lang="zh-cn" data-template="default">
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
 <head>
-<title>DD Income Api</title>
+<title>DD Income 分享</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -14,6 +18,8 @@
 <link rev="made" href="http://dwtedx.com">
 </head>
 <body>
-	<h2>DD Income Api Start</h2>
+
+	<p>IP地址: ${ ipAddress}</p>
+	
 </body>
 </html>

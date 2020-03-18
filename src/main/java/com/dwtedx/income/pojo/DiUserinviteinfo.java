@@ -9,9 +9,13 @@ public class DiUserinviteinfo {
 
     private Integer inviteuserid;
 
+    private String invitephone;
+
     private Date invitetime;
 
     private Integer givevip;
+
+    private Integer status;
 
     private String remark;
 
@@ -49,6 +53,14 @@ public class DiUserinviteinfo {
         this.inviteuserid = inviteuserid;
     }
 
+    public String getInvitephone() {
+        return invitephone;
+    }
+
+    public void setInvitephone(String invitephone) {
+        this.invitephone = invitephone == null ? null : invitephone.trim();
+    }
+
     public Date getInvitetime() {
         return invitetime;
     }
@@ -63,6 +75,14 @@ public class DiUserinviteinfo {
 
     public void setGivevip(Integer givevip) {
         this.givevip = givevip;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getRemark() {

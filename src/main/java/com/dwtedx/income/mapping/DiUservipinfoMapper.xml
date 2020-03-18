@@ -4,11 +4,14 @@
   <resultMap id="BaseResultMap" type="com.dwtedx.income.pojo.DiUservipinfo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="months" property="months" jdbcType="INTEGER" />
     <result column="starttime" property="starttime" jdbcType="TIMESTAMP" />
     <result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
     <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="typename" property="typename" jdbcType="VARCHAR" />
+    <result column="ordercode" property="ordercode" jdbcType="VARCHAR" />
     <result column="payaccount" property="payaccount" jdbcType="DECIMAL" />
-    <result column="totalpayaccount" property="totalpayaccount" jdbcType="DECIMAL" />
+    <result column="paytotalaccount" property="paytotalaccount" jdbcType="DECIMAL" />
     <result column="paytype" property="paytype" jdbcType="INTEGER" />
     <result column="paytime" property="paytime" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
@@ -19,8 +22,8 @@
     <result column="updateuser" property="updateuser" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, userid, starttime, endtime, type, payaccount, totalpayaccount, paytype, paytime, 
-    remark, deleteflag, createtime, createuser, updatetime, updateuser
+    id, userid, months, starttime, endtime, type, typename, ordercode, payaccount, paytotalaccount, 
+    paytype, paytime, remark, deleteflag, createtime, createuser, updatetime, updateuser
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -32,21 +35,23 @@
     delete from di_uservipinfo
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiUservipinfo" >
-    insert into di_uservipinfo (id, userid, starttime, 
-      endtime, type, payaccount, 
-      totalpayaccount, paytype, paytime, 
+  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiUservipinfo" useGeneratedKeys="true" keyProperty="id" >
+    insert into di_uservipinfo (id, userid, months, 
+      starttime, endtime, type, 
+      typename, ordercode, payaccount, 
+      paytotalaccount, paytype, paytime, 
       remark, deleteflag, createtime, 
       createuser, updatetime, updateuser
       )
-    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{starttime,jdbcType=TIMESTAMP}, 
-      #{endtime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, #{payaccount,jdbcType=DECIMAL}, 
-      #{totalpayaccount,jdbcType=DECIMAL}, #{paytype,jdbcType=INTEGER}, #{paytime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{months,jdbcType=INTEGER}, 
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, 
+      #{typename,jdbcType=VARCHAR}, #{ordercode,jdbcType=VARCHAR}, #{payaccount,jdbcType=DECIMAL}, 
+      #{paytotalaccount,jdbcType=DECIMAL}, #{paytype,jdbcType=INTEGER}, #{paytime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR}, #{deleteflag,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
       #{createuser,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiUservipinfo" >
+  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiUservipinfo" useGeneratedKeys="true" keyProperty="id" >
     insert into di_uservipinfo
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -54,6 +59,9 @@
       </if>
       <if test="userid != null" >
         userid,
+      </if>
+      <if test="months != null" >
+        months,
       </if>
       <if test="starttime != null" >
         starttime,
@@ -64,11 +72,17 @@
       <if test="type != null" >
         type,
       </if>
+      <if test="typename != null" >
+        typename,
+      </if>
+      <if test="ordercode != null" >
+        ordercode,
+      </if>
       <if test="payaccount != null" >
         payaccount,
       </if>
-      <if test="totalpayaccount != null" >
-        totalpayaccount,
+      <if test="paytotalaccount != null" >
+        paytotalaccount,
       </if>
       <if test="paytype != null" >
         paytype,
@@ -102,6 +116,9 @@
       <if test="userid != null" >
         #{userid,jdbcType=INTEGER},
       </if>
+      <if test="months != null" >
+        #{months,jdbcType=INTEGER},
+      </if>
       <if test="starttime != null" >
         #{starttime,jdbcType=TIMESTAMP},
       </if>
@@ -111,11 +128,17 @@
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
       </if>
+      <if test="typename != null" >
+        #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="ordercode != null" >
+        #{ordercode,jdbcType=VARCHAR},
+      </if>
       <if test="payaccount != null" >
         #{payaccount,jdbcType=DECIMAL},
       </if>
-      <if test="totalpayaccount != null" >
-        #{totalpayaccount,jdbcType=DECIMAL},
+      <if test="paytotalaccount != null" >
+        #{paytotalaccount,jdbcType=DECIMAL},
       </if>
       <if test="paytype != null" >
         #{paytype,jdbcType=INTEGER},
@@ -149,6 +172,9 @@
       <if test="userid != null" >
         userid = #{userid,jdbcType=INTEGER},
       </if>
+      <if test="months != null" >
+        months = #{months,jdbcType=INTEGER},
+      </if>
       <if test="starttime != null" >
         starttime = #{starttime,jdbcType=TIMESTAMP},
       </if>
@@ -158,11 +184,17 @@
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
       </if>
+      <if test="typename != null" >
+        typename = #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="ordercode != null" >
+        ordercode = #{ordercode,jdbcType=VARCHAR},
+      </if>
       <if test="payaccount != null" >
         payaccount = #{payaccount,jdbcType=DECIMAL},
       </if>
-      <if test="totalpayaccount != null" >
-        totalpayaccount = #{totalpayaccount,jdbcType=DECIMAL},
+      <if test="paytotalaccount != null" >
+        paytotalaccount = #{paytotalaccount,jdbcType=DECIMAL},
       </if>
       <if test="paytype != null" >
         paytype = #{paytype,jdbcType=INTEGER},
@@ -194,11 +226,14 @@
   <update id="updateByPrimaryKey" parameterType="com.dwtedx.income.pojo.DiUservipinfo" >
     update di_uservipinfo
     set userid = #{userid,jdbcType=INTEGER},
+      months = #{months,jdbcType=INTEGER},
       starttime = #{starttime,jdbcType=TIMESTAMP},
       endtime = #{endtime,jdbcType=TIMESTAMP},
       type = #{type,jdbcType=INTEGER},
+      typename = #{typename,jdbcType=VARCHAR},
+      ordercode = #{ordercode,jdbcType=VARCHAR},
       payaccount = #{payaccount,jdbcType=DECIMAL},
-      totalpayaccount = #{totalpayaccount,jdbcType=DECIMAL},
+      paytotalaccount = #{paytotalaccount,jdbcType=DECIMAL},
       paytype = #{paytype,jdbcType=INTEGER},
       paytime = #{paytime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
