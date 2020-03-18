@@ -1,10 +1,10 @@
 package com.dwtedx.income.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,12 +20,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.api.request.AlipayTradeAppPayRequest;
+import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.dwtedx.income.alipay.AlipayConfig;
 import com.dwtedx.income.alipay.AlipayModel;
 import com.dwtedx.income.alipay.AlipayNotifyParam;
 import com.dwtedx.income.alipay.AlipayTradeStatus;
-import com.dwtedx.income.alipay.OrderInfoUtil2_0;
 import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.filter.HttpHelper;
 import com.dwtedx.income.filter.RequestVerifySingFilter;
@@ -54,31 +58,75 @@ public class DiVIpInfoController {
 		UservipModel codeModel = diVipInfoService.saveUserVip(model.getBody());
 
 		// orderInfo 的获取必须来自服务端；
-		Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(String.valueOf(codeModel.getPayaccount()),
-				codeModel.getTypename(), codeModel.getOrdercode());
-		String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
+		// Map<String, String> params =
+		// OrderInfoUtil2_0.buildOrderParamMap(String.valueOf(codeModel.getPayaccount()),
+		// codeModel.getTypename(), codeModel.getOrdercode());
+		// String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
+		// String sign = OrderInfoUtil2_0.getSign(params, AlipayConfig.rsa_private_key,
+		// true);
 
-		String sign = OrderInfoUtil2_0.getSign(params, AlipayConfig.rsa_private_key, true);
-
-		AlipayModel alipayModel = new AlipayModel();
-		alipayModel.setOrderParam(orderParam);
-		alipayModel.setSign(sign);
+		// 实例化客户端
+		AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", AlipayConfig.appid,
+				AlipayConfig.rsa_private_key, AlipayConfig.format, AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.signtype);
+		// 实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
+		AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
+		// SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
+		AlipayTradeAppPayModel alipayModel = new AlipayTradeAppPayModel();
+		alipayModel.setBody(codeModel.getTypename());
+		alipayModel.setSubject(codeModel.getTypename());
+		alipayModel.setOutTradeNo(codeModel.getOrdercode());
+		alipayModel.setTimeoutExpress("30m");
+		alipayModel.setTotalAmount(String.valueOf(codeModel.getPayaccount()));
+		alipayModel.setProductCode("QUICK_MSECURITY_PAY");
+		request.setBizModel(alipayModel);
+		request.setNotifyUrl(AlipayConfig.notify_url);
+		
+		AlipayModel alipayBodyModel = new AlipayModel();
+		try {
+			// 这里和普通的接口调用不同，使用的是sdkExecute
+			AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
+			System.out.println(response.getBody());// 就是orderString 可以直接给客户端请求，无需再做处理。
+			
+			alipayBodyModel.setOrderParam(response.getBody());
+		} catch (AlipayApiException e) {
+			e.printStackTrace();
+			throw new DiException("订单创建失败");
+		}
 
 		ResultInfo resultInfo = new ResultInfo();
-		resultInfo.setBody(alipayModel);
+		resultInfo.setBody(alipayBodyModel);
 		return resultInfo;
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/ordernotify", method = RequestMethod.POST)
-	public String toOrderNotify(HttpServletRequest request) throws DiException {
+	public String toOrderNotify(HttpServletRequest request) throws DiException, UnsupportedEncodingException, AlipayApiException {
 
-		Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
+		Map<String,String> params = new HashMap<String,String>();
+		Map requestParams = request.getParameterMap();
+		for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+		    String name = (String) iter.next();
+		    String[] values = (String[]) requestParams.get(name);
+		    String valueStr = "";
+		    for (int i = 0; i < values.length; i++) {
+		        valueStr = (i == values.length - 1) ? valueStr + values[i]
+		                    : valueStr + values[i] + ",";
+		    }
+		    //乱码解决，这段代码在出现乱码时使用。
+		  //valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
+		  params.put(name, valueStr);
+		}
+		//切记alipaypublickey是支付宝的公钥，请去open.alipay.com对应应用下查看。
+		//boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
+		boolean flag = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.signtype);
+				
+		//Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
 		String paramsJson = JSON.toJSONString(params);
 		logger.info("支付宝回调：" + paramsJson);
 		try {
 			// 调用SDK验证签名
-			boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.signtype);
+			boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key,
+					AlipayConfig.charset, AlipayConfig.signtype);
 			if (signVerified) {
 				logger.info("支付宝回调签名认证成功");
 				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
@@ -122,17 +170,17 @@ public class DiVIpInfoController {
 	}
 
 	// 将request中的参数转换成Map
-	private static Map<String, String> convertRequestParamsToMap(HttpServletRequest request) {
+	private static Map<String, String> convertRequestParamsToMap(HttpServletRequest request) throws UnsupportedEncodingException {
 		Map<String, String> retMap = new HashMap<String, String>();
 
 		String str = HttpHelper.getBodyString(request);
 
 		// 感谢bojueyou指出的问题
-		//判断str是否有值
+		// 判断str是否有值
 		if (null == str || "".equals(str)) {
 			return retMap;
 		}
-		//根据&截取
+		// 根据&截取
 		String[] strings = str.split("&");
 		// 设置HashMap长度
 		int mapLength = strings.length;
@@ -146,7 +194,9 @@ public class DiVIpInfoController {
 			// 截取一组字符串
 			String[] strArray = strings[i].split("=");
 			// strArray[0]为KEY strArray[1]为值
-			retMap.put(strArray[0], strArray[1]);
+			//乱码解决，这段代码在出现乱码时使用。
+			String valueStr = new String(strArray[1].getBytes("ISO-8859-1"), "utf-8");
+			retMap.put(strArray[0], valueStr);
 		}
 
 		return retMap;
