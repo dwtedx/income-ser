@@ -1,5 +1,7 @@
 package com.dwtedx.income.service;
 
+import java.util.Date;
+
 import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.model.PassWordModel;
 import com.dwtedx.income.model.UserInfoModel;
@@ -30,5 +32,7 @@ public interface IDiUserInfoService {
 	public DiUserInfo updateUserPhone(int userId, UserInfoModel modelBody) throws DiException;
 
 	public DiUserInfo reSetUserPass(int userId, UserInfoModel modelBody) throws DiException;
+
+	public void updateUserVipInfo(int userid, Date endtime) throws DiException;
 
 }

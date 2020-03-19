@@ -1,5 +1,7 @@
 package com.dwtedx.income.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -498,4 +500,22 @@ public class DiUserInfoServiceImpl implements IDiUserInfoService {
 		this.diUserInfoMapper.updateByPrimaryKeySelective(diUserInfo);
 		return diUserInfo;
 	}
+	
+	/**
+	 * 升级VIP
+	 */
+	@Override
+	public void updateUserVipInfo(int userId, Date endTime) throws DiException {
+		//检测
+		DiUserInfo diUserInfo = this.diUserInfoMapper.selectByPrimaryKey(userId);
+		if(null == diUserInfo){
+			throw new DiException("用户未找到");
+		}
+		
+		//数据库修改
+		diUserInfo.setVipflag(ICConsants.VIP_TYPE_VIP);
+		diUserInfo.setVipendtime(endTime);
+		this.diUserInfoMapper.updateByPrimaryKeySelective(diUserInfo);
+	}
+	
 }

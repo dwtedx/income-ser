@@ -54,5 +54,8 @@ public class ICConsants {
     //0:充值VIp 1:活动获得VIP
     public final static int VIP_TYPE_BUY = 0;
     public final static int VIP_TYPE_GIVE = 1;
+    //0:普通会员 1:VIP
+    public final static int VIP_TYPE_USER = 0;
+    public final static int VIP_TYPE_VIP = 1;
 
 }

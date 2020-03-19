@@ -11,13 +11,13 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapper {
+public class JsonReaderRequestWrapper extends HttpServletRequestWrapper {
 
 	private final byte[] body;
 
-    public BodyReaderHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
+    public JsonReaderRequestWrapper(HttpServletRequest request) throws IOException {
         super(request);
-        body = HttpHelper.getBodyString(request).getBytes(Charset.forName("UTF-8"));
+        body = JsonHttpHelper.getBodyString(request).getBytes(Charset.forName("UTF-8"));
     }
 
     @Override

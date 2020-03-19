@@ -3,8 +3,9 @@ package com.dwtedx.income.controller;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -31,11 +32,11 @@ import com.dwtedx.income.alipay.AlipayModel;
 import com.dwtedx.income.alipay.AlipayNotifyParam;
 import com.dwtedx.income.alipay.AlipayTradeStatus;
 import com.dwtedx.income.exception.DiException;
-import com.dwtedx.income.filter.HttpHelper;
 import com.dwtedx.income.filter.RequestVerifySingFilter;
 import com.dwtedx.income.model.UservipModel;
 import com.dwtedx.income.model.common.MessageInfo;
 import com.dwtedx.income.model.common.ResultInfo;
+import com.dwtedx.income.service.IDiUserInfoService;
 import com.dwtedx.income.service.IDiVipInfoService;
 
 @Controller
@@ -44,6 +45,8 @@ public class DiVIpInfoController {
 
 	@Resource
 	private IDiVipInfoService diVipInfoService;
+	@Resource
+	private IDiUserInfoService diUserInfoService;
 
 	private ExecutorService executorService = Executors.newFixedThreadPool(20);
 
@@ -102,25 +105,7 @@ public class DiVIpInfoController {
 	@RequestMapping(value = "/ordernotify", method = RequestMethod.POST)
 	public String toOrderNotify(HttpServletRequest request) throws DiException, UnsupportedEncodingException, AlipayApiException {
 
-		Map<String,String> params = new HashMap<String,String>();
-		Map requestParams = request.getParameterMap();
-		for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
-		    String name = (String) iter.next();
-		    String[] values = (String[]) requestParams.get(name);
-		    String valueStr = "";
-		    for (int i = 0; i < values.length; i++) {
-		        valueStr = (i == values.length - 1) ? valueStr + values[i]
-		                    : valueStr + values[i] + ",";
-		    }
-		    //乱码解决，这段代码在出现乱码时使用。
-		  //valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
-		  params.put(name, valueStr);
-		}
-		//切记alipaypublickey是支付宝的公钥，请去open.alipay.com对应应用下查看。
-		//boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
-		boolean flag = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.signtype);
-				
-		//Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
+		Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
 		String paramsJson = JSON.toJSONString(params);
 		logger.info("支付宝回调：" + paramsJson);
 		try {
@@ -142,11 +127,13 @@ public class DiVIpInfoController {
 								|| trade_status.equals(AlipayTradeStatus.TRADE_FINISHED)) {
 							// 处理支付成功逻辑
 							try {
-								UservipModel uservipModel = diVipInfoService
-										.getUserVipByOrderCode(param.getOutTradeNo());
+								UservipModel uservipModel = diVipInfoService.getUserVipByOrderCode(param.getOutTradeNo());
 								uservipModel.setPaytotalaccount(param.getTotalAmount());
 								uservipModel.setPaytime(param.getGmtPayment());
 								uservipModel.setRemark(paramsJson);
+								diVipInfoService.saveUserVip(uservipModel);
+								//用户表状态改为VIP，增加时长								
+								diUserInfoService.updateUserVipInfo(uservipModel.getUserid(), uservipModel.getEndtime());
 							} catch (Exception e) {
 								logger.error("支付宝回调业务处理报错,params:" + paramsJson, e);
 							}
@@ -173,33 +160,27 @@ public class DiVIpInfoController {
 	private static Map<String, String> convertRequestParamsToMap(HttpServletRequest request) throws UnsupportedEncodingException {
 		Map<String, String> retMap = new HashMap<String, String>();
 
-		String str = HttpHelper.getBodyString(request);
+        Set<Entry<String, String[]>> entrySet = request.getParameterMap().entrySet();
 
-		// 感谢bojueyou指出的问题
-		// 判断str是否有值
-		if (null == str || "".equals(str)) {
-			return retMap;
-		}
-		// 根据&截取
-		String[] strings = str.split("&");
-		// 设置HashMap长度
-		int mapLength = strings.length;
-		// 判断hashMap的长度是否是2的幂。
-		if ((strings.length % 2) != 0) {
-			mapLength = mapLength + 1;
-		}
+        for (Entry<String, String[]> entry : entrySet) {
+            String name = entry.getKey();
+            String[] values = entry.getValue();
+            int valLen = values.length;
 
-		// 循环加入map集合
-		for (int i = 0; i < strings.length; i++) {
-			// 截取一组字符串
-			String[] strArray = strings[i].split("=");
-			// strArray[0]为KEY strArray[1]为值
-			//乱码解决，这段代码在出现乱码时使用。
-			String valueStr = new String(strArray[1].getBytes("ISO-8859-1"), "utf-8");
-			retMap.put(strArray[0], valueStr);
-		}
+            if (valLen == 1) {
+                retMap.put(name, values[0]);
+            } else if (valLen > 1) {
+                StringBuilder sb = new StringBuilder();
+                for (String val : values) {
+                    sb.append(",").append(val);
+                }
+                retMap.put(name, sb.toString().substring(1));
+            } else {
+                retMap.put(name, "");
+            }
+        }
 
-		return retMap;
+        return retMap;
 	}
 
 	private AlipayNotifyParam buildAlipayNotifyParam(Map<String, String> params) {
@@ -228,7 +209,7 @@ public class DiVIpInfoController {
 		}
 
 		// 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
-		long total_amount = new BigDecimal(params.get("total_amount")).multiply(new BigDecimal(100)).longValue();
+		long total_amount = new BigDecimal(params.get("total_amount")).longValue();
 		if (total_amount != order.getPayaccount().longValue()) {
 			throw new AlipayApiException("error total_amount");
 		}

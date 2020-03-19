@@ -8,7 +8,7 @@ import java.nio.charset.Charset;
 
 import javax.servlet.ServletRequest;
 
-public class HttpHelper {
+public class JsonHttpHelper {
 
 	/**
      * 获取请求Body
