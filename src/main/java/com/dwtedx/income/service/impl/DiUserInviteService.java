@@ -1,10 +1,12 @@
 package com.dwtedx.income.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import com.dwtedx.income.dao.IDiUserinviteinfoMapper;
@@ -30,11 +32,14 @@ public class DiUserInviteService implements IDiUserInviteService {
 	public void saveInvite(UserinviteModel model) throws DiException {
 		DiUserinviteinfo userinviteinfo = modelMapper.map(model, DiUserinviteinfo.class);
 		if(userinviteinfo.getId() > 0) {
+			userinviteinfo.setUpdatetime(new Date());
 			int id = diUserinviteinfoMapper.updateByPrimaryKeySelective(userinviteinfo);
 			if(id == 0) {
 				throw new DiException("邀请信息保存异常");
 			}
 		}else {
+			userinviteinfo.setCreatetime(new Date());
+			userinviteinfo.setInvitetime(new Date());
 			int id = diUserinviteinfoMapper.insertSelective(userinviteinfo);
 			if(id == 0) {
 				throw new DiException("邀请信息保存异常");
@@ -44,8 +49,9 @@ public class DiUserInviteService implements IDiUserInviteService {
 
 	@Override
 	public List<UserinviteModel> getUserInviteByUserId(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<DiUserinviteinfo> list = diUserinviteinfoMapper.selectUserinviteId(userId);
+		List<UserinviteModel> mosels = modelMapper.map(list, new TypeToken<List<UserinviteModel>>() {}.getType());
+		return mosels;
 	}
 
 }
