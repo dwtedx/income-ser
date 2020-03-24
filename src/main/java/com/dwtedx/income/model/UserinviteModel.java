@@ -10,6 +10,8 @@ public class UserinviteModel {
     private String invitephone;
 
     private String invitetime;
+    
+    private String invitetimeStr;
 
     private int givevip;
 
@@ -130,4 +132,13 @@ public class UserinviteModel {
     public void setUpdateuser(int updateuser) {
         this.updateuser = updateuser;
     }
+
+	public String getInvitetimeStr() {
+		return invitetimeStr;
+	}
+
+	public void setInvitetimeStr(String invitetimeStr) {
+		this.invitetimeStr = invitetimeStr;
+	}
+    
 }

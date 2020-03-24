@@ -38,7 +38,7 @@ public class DiUserInviteController {
 	@RequestMapping(value = "/find", method = RequestMethod.POST)
 	public ResultInfo toFindInvite(@RequestBody MessageInfo<BaseModel> model) throws DiException {
 
-		List<UserinviteModel> list = diUserInviteService.getUserInviteByUserId(model.getBody().getId());
+		List<UserinviteModel> list = diUserInviteService.getUserInviteByUserId(model.getHead().getUserId(), model.getBody().getId());
 		ResultInfo resultInfo = new ResultInfo();
 		resultInfo.setBody(list);
 		return resultInfo;

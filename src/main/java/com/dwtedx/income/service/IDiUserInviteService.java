@@ -9,6 +9,6 @@ public interface IDiUserInviteService {
 
 	public void saveInvite(UserinviteModel model) throws DiException;
 
-	public List<UserinviteModel> getUserInviteByUserId(int userId);
+	public List<UserinviteModel> getUserInviteByUserId(int userId, int status);
 
 }

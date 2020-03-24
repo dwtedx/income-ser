@@ -48,8 +48,8 @@ public class DiUserInviteService implements IDiUserInviteService {
 	}
 
 	@Override
-	public List<UserinviteModel> getUserInviteByUserId(int userId) {
-		List<DiUserinviteinfo> list = diUserinviteinfoMapper.selectUserinviteId(userId);
+	public List<UserinviteModel> getUserInviteByUserId(int userId, int status) {
+		List<DiUserinviteinfo> list = diUserinviteinfoMapper.selectUserinviteId(userId, status);
 		List<UserinviteModel> mosels = modelMapper.map(list, new TypeToken<List<UserinviteModel>>() {}.getType());
 		return mosels;
 	}

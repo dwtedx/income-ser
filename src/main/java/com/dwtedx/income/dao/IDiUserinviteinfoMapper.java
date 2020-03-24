@@ -20,6 +20,6 @@ public interface IDiUserinviteinfoMapper {
 
     int updateByPrimaryKey(DiUserinviteinfo record);
     
-    @Select("select * from di_userinviteinfo where deleteflag = 0 and userid = #{userid,jdbcType=INTEGER} order by id desc;")
-    List<DiUserinviteinfo> selectUserinviteId(@Param("userid")int userid);
+    @Select("select * from di_userinviteinfo where deleteflag = 0 and userid = #{userid,jdbcType=INTEGER} and status = #{status,jdbcType=INTEGER} order by id desc;")
+    List<DiUserinviteinfo> selectUserinviteId(@Param("userid")int userid, @Param("status")int status);
 }

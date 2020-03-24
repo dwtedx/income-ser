@@ -2,6 +2,8 @@ package com.dwtedx.income.pojo;
 
 import java.util.Date;
 
+import com.dwtedx.income.utility.CommonUtility;
+
 public class DiUserinviteinfo {
     private Integer id;
 
@@ -12,6 +14,8 @@ public class DiUserinviteinfo {
     private String invitephone;
 
     private Date invitetime;
+    
+    private String invitetimeStr;
 
     private Integer givevip;
 
@@ -67,6 +71,7 @@ public class DiUserinviteinfo {
 
     public void setInvitetime(Date invitetime) {
         this.invitetime = invitetime;
+		this.invitetimeStr = CommonUtility.stringDateFormart(invitetime);
     }
 
     public Integer getGivevip() {
@@ -132,4 +137,9 @@ public class DiUserinviteinfo {
     public void setUpdateuser(Integer updateuser) {
         this.updateuser = updateuser;
     }
+
+	public String getInvitetimeStr() {
+		return invitetimeStr;
+	}
+    
 }
