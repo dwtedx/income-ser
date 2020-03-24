@@ -1,5 +1,6 @@
 package com.dwtedx.income.service.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -8,11 +9,15 @@ import org.springframework.stereotype.Service;
 
 import com.dwtedx.income.dao.IDiSendSmsMapper;
 import com.dwtedx.income.dao.IDiUserInfoMapper;
+import com.dwtedx.income.dao.IDiUserinviteinfoMapper;
+import com.dwtedx.income.dao.IDiUservipinfoMapper;
 import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.model.PassWordModel;
 import com.dwtedx.income.model.UserInfoModel;
 import com.dwtedx.income.pojo.DiSendSms;
 import com.dwtedx.income.pojo.DiUserInfo;
+import com.dwtedx.income.pojo.DiUserinviteinfo;
+import com.dwtedx.income.pojo.DiUservipinfo;
 import com.dwtedx.income.service.IDiUserInfoService;
 import com.dwtedx.income.utility.Base64ImageUtility;
 import com.dwtedx.income.utility.CommonUtility;
@@ -34,6 +39,10 @@ public class DiUserInfoServiceImpl implements IDiUserInfoService {
 	private IDiUserInfoMapper diUserInfoMapper;
 	@Resource
 	private IDiSendSmsMapper diSendSmsMapper;
+	@Resource
+	private IDiUserinviteinfoMapper diUserinviteinfoMapper;
+	@Resource
+	private IDiUservipinfoMapper diUservipinfoMapper;
 
 	@Override
 	public DiUserInfo getUserById(int userId) {
@@ -416,6 +425,37 @@ public class DiUserInfoServiceImpl implements IDiUserInfoService {
 		
 			break;
 			
+		}
+		//2020-03-24邀请用户注册送VIP
+		DiUserinviteinfo userinviteinfo = diUserinviteinfoMapper.selectUserinviteByPhone(userInfoModel.getUsername());
+		if(null != userinviteinfo) {
+			DiUserInfo userInviteUserInfo = diUserInfoMapper.selectByPrimaryKey(userinviteinfo.getUserid());
+			//VIP记录 时间计算
+			Date date = new Date();
+			if (userInviteUserInfo.getVipflag() == ICConsants.VIP_TYPE_VIP) {
+                date = userInviteUserInfo.getVipendtime();
+            }
+			Calendar cal = Calendar.getInstance();
+            cal.setTime(date);//设置起时间 
+            cal.add(Calendar.MONTH, 1);//增加一个月
+			DiUservipinfo uservipinfo = new DiUservipinfo();
+			uservipinfo.setUserid(userinviteinfo.getUserid());
+			uservipinfo.setMonths(1);
+			uservipinfo.setStarttime(date);
+			uservipinfo.setEndtime(cal.getTime());
+			uservipinfo.setType(1);//0:充值VIp 1:活动获得VIP
+			uservipinfo.setTypename("邀请好友得1月VIP");
+			uservipinfo.setDeleteflag(ICConsants.DELETEFALAG_NOTDELETE);
+			uservipinfo.setCreatetime(new Date());
+			diUservipinfoMapper.insertSelective(uservipinfo);
+			//升级VIP
+			userInviteUserInfo.setVipflag(ICConsants.VIP_TYPE_VIP);
+			userInviteUserInfo.setVipendtime(cal.getTime());
+			this.diUserInfoMapper.updateByPrimaryKeySelective(userInviteUserInfo);
+			//记录邀请状态完成
+			userinviteinfo.setGivevip(1);//0:没有赠与 1:已经发放VIP
+			userinviteinfo.setStatus(2);//0:未发送邀请 1:已经邀请 2:邀请成功
+			diUserinviteinfoMapper.updateByPrimaryKeySelective(userinviteinfo);
 		}
 		return diUserInfo;
 	}

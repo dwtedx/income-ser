@@ -57,7 +57,7 @@ public class DiVIpInfoController {
 	public ResultInfo toOrder(@RequestBody MessageInfo<UservipModel> model) throws DiException {
 
 		// 测试金额0.01
-		model.getBody().setPayaccount(new BigDecimal("0.01"));
+		//model.getBody().setPayaccount(new BigDecimal("0.01"));
 		UservipModel codeModel = diVipInfoService.saveUserVip(model.getBody());
 
 		// orderInfo 的获取必须来自服务端；

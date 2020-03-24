@@ -22,4 +22,7 @@ public interface IDiUserinviteinfoMapper {
     
     @Select("select * from di_userinviteinfo where deleteflag = 0 and userid = #{userid,jdbcType=INTEGER} and status = #{status,jdbcType=INTEGER} order by id desc;")
     List<DiUserinviteinfo> selectUserinviteId(@Param("userid")int userid, @Param("status")int status);
+    
+    @Select("SELECT * FROM di_userinviteinfo WHERE invitephone = #{phone,jdbcType=VARCHAR} ORDER BY id desc LIMIT 1;")
+    DiUserinviteinfo selectUserinviteByPhone(@Param("phone")String phone);
 }

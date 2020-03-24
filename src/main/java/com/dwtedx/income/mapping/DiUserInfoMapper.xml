@@ -78,7 +78,7 @@
     delete from di_userinfo
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiUserInfo" >
+  <insert id="insert" parameterType="com.dwtedx.income.pojo.DiUserInfo" useGeneratedKeys="true" keyProperty="id" >
     insert into di_userinfo (id, username, name, phone, 
       email, password, head, 
       work, weixin, qq, sex, birthday, signature,  
@@ -90,7 +90,7 @@
       #{signature,jdbcType=VARCHAR}, #{weixinopenid,jdbcType=VARCHAR}, #{sinaopenid,jdbcType=VARCHAR}, #{qqopenid,jdbcType=VARCHAR}, #{clientsid,jdbcType=VARCHAR}, 
       #{vipflag,jdbcType=INTEGER}, #{vipendtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiUserInfo" >
+  <insert id="insertSelective" parameterType="com.dwtedx.income.pojo.DiUserInfo" useGeneratedKeys="true" keyProperty="id" >
     insert into di_userinfo
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
