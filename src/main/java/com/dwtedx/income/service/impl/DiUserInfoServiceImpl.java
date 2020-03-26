@@ -46,7 +46,14 @@ public class DiUserInfoServiceImpl implements IDiUserInfoService {
 
 	@Override
 	public DiUserInfo getUserById(int userId) {
-		return this.diUserInfoMapper.selectByPrimaryKey(userId);
+		DiUserInfo userInfo = this.diUserInfoMapper.selectByPrimaryKey(userId);
+		//2020-03-26检查VIP过期
+		if (null != userInfo && userInfo.getVipflag() == ICConsants.VIP_TYPE_VIP) {
+            if(-1 == CommonUtility.compareDate(userInfo.getVipendtime(), new Date())) {
+            	System.out.println("过期...");
+            }
+        }
+		return userInfo;
 	}
 
 	@Override

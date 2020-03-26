@@ -162,6 +162,23 @@ public class CommonUtility {
             return 0;
         }
     }
+    
+    public static int compareDate(Date dt1, Date dt2) {
+        try {
+            if (dt1.getTime() > dt2.getTime()) {
+                //System.out.println("dt1 在dt2前");
+                return 1;
+            } else if (dt1.getTime() < dt2.getTime()) {
+                //System.out.println("dt1在dt2后");
+                return -1;
+            } else {
+                return 0;
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return 0;
+        }
+    }
 
     /**
      * @param @param  day

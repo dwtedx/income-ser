@@ -42,14 +42,6 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 	
-	<!--拦截器 -->
-	<mvc:interceptors>
-	    <mvc:interceptor>
-	        <mvc:mapping path="/user/**"/>
-	        <bean class="com.dwtedx.income.interceptor.ChooseVipInterceptor"></bean>
-	    </mvc:interceptor>
-	</mvc:interceptors>
-	
 	<!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
