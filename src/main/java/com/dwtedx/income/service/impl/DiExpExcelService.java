@@ -117,10 +117,10 @@ public class DiExpExcelService implements IDiExpExcelService {
 		// 类型id
 		String[] typeId = null;
 		String[] accountid = null;
-		if (null != model.getTypeid()) {
+		if (!CommonUtility.isEmpty(model.getTypeid())) {
 			typeId = model.getTypeid().split(",");
 		}
-		if (null != model.getAccountid()) {
+		if (!CommonUtility.isEmpty(model.getAccountid())) {
 			accountid = model.getAccountid().split(",");
 		}
 		int result = diIncomeMapper.selectByExpExcelsPool(model.getUserid(), model.getRole(), model.getMoneysumstart(),
@@ -170,10 +170,10 @@ public class DiExpExcelService implements IDiExpExcelService {
 		// 类型id
 		String[] typeId = null;
 		String[] accountid = null;
-		if (null != model.getTypeid()) {
+		if (!CommonUtility.isEmpty(model.getTypeid())) {
 			typeId = model.getTypeid().split(",");
 		}
-		if (null != model.getAccountid()) {
+		if (!CommonUtility.isEmpty(model.getAccountid())) {
 			accountid = model.getAccountid().split(",");
 		}
 		List<DiIncome> pojos = diIncomeMapper.selectByExpExcels(model.getUserid(), model.getRole(),

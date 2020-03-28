@@ -33,6 +33,7 @@ import com.dwtedx.income.alipay.AlipayNotifyParam;
 import com.dwtedx.income.alipay.AlipayTradeStatus;
 import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.filter.RequestVerifySingFilter;
+import com.dwtedx.income.model.BaseModel;
 import com.dwtedx.income.model.UservipModel;
 import com.dwtedx.income.model.common.MessageInfo;
 import com.dwtedx.income.model.common.ResultInfo;
@@ -51,6 +52,18 @@ public class DiVIpInfoController {
 	private ExecutorService executorService = Executors.newFixedThreadPool(20);
 
 	private Logger logger = Logger.getLogger(RequestVerifySingFilter.class);
+	
+	@ResponseBody
+	@RequestMapping(value = "/vipcount", method = RequestMethod.POST)
+	public ResultInfo toVipCount(@RequestBody MessageInfo<BaseModel> model) throws DiException {
+
+		int count = diUserInfoService.getOpenVipCount();
+		BaseModel baseModel = new BaseModel();
+		baseModel.setId(count);
+		ResultInfo resultInfo = new ResultInfo();
+		resultInfo.setBody(baseModel);
+		return resultInfo;
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/order", method = RequestMethod.POST)

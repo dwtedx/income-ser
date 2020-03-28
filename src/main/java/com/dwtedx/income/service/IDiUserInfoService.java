@@ -34,5 +34,7 @@ public interface IDiUserInfoService {
 	public DiUserInfo reSetUserPass(int userId, UserInfoModel modelBody) throws DiException;
 
 	public void updateUserVipInfo(int userid, Date endtime) throws DiException;
+	
+	public int getOpenVipCount() throws DiException;
 
 }

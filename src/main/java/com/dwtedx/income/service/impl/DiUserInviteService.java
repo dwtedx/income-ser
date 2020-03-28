@@ -38,6 +38,11 @@ public class DiUserInviteService implements IDiUserInviteService {
 				throw new DiException("邀请信息保存异常");
 			}
 		}else {
+			//检查一个用户重复邀请
+			DiUserinviteinfo uDiUserinviteinfo = diUserinviteinfoMapper.selectUserinviteByPhoneAndUserId(userinviteinfo.getUserid(), userinviteinfo.getInvitephone());;
+			if(null != uDiUserinviteinfo) {
+				throw new DiException("重复邀请好友，请直接点击邀请按钮");
+			}
 			userinviteinfo.setCreatetime(new Date());
 			userinviteinfo.setInvitetime(new Date());
 			int id = diUserinviteinfoMapper.insertSelective(userinviteinfo);

@@ -566,5 +566,11 @@ public class DiUserInfoServiceImpl implements IDiUserInfoService {
 		diUserInfo.setVipendtime(endTime);
 		this.diUserInfoMapper.updateByPrimaryKeySelective(diUserInfo);
 	}
+
+	@Override
+	public int getOpenVipCount() throws DiException {
+		int count = diUserInfoMapper.selectOpenVipCount();
+		return 277 + count;
+	}
 	
 }

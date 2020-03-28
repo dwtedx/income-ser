@@ -20,6 +20,7 @@ public class IncomeHandlerException implements HandlerExceptionResolver {
 
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 		try {
+			ex.printStackTrace();
 			
 			ResultInfo resultInfo = new ResultInfo();
 			resultInfo.getHead().setErrorCode(ICConsants.ERRORCODE_10001);
