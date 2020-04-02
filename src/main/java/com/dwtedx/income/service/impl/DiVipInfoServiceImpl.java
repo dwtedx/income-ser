@@ -13,9 +13,11 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
+import com.dwtedx.income.dao.IDiUserInfoMapper;
 import com.dwtedx.income.dao.IDiUservipinfoMapper;
 import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.model.UservipModel;
+import com.dwtedx.income.pojo.DiUserInfo;
 import com.dwtedx.income.pojo.DiUservipinfo;
 import com.dwtedx.income.service.IDiVipInfoService;
 import com.dwtedx.income.utility.ICConsants;
@@ -25,6 +27,8 @@ public class DiVipInfoServiceImpl implements IDiVipInfoService {
 
 	@Resource
 	private IDiUservipinfoMapper diUservipinfoMapper;
+	@Resource
+	private IDiUserInfoMapper diUserInfoMapper;
 	
 	private ModelMapper modelMapper;
 
@@ -51,7 +55,12 @@ public class DiVipInfoServiceImpl implements IDiVipInfoService {
 			uservipinfo.setTypename("DD记账" + model.getMonths() + "个月VIP");
 			model.setTypename("DD记账" + model.getMonths() + "个月VIP");
 			//计算时间
+			DiUserInfo userInviteUserInfo = diUserInfoMapper.selectByPrimaryKey(model.getUserid());
+			//VIP记录 时间计算
 			Date starttime = new Date();
+			if (userInviteUserInfo.getVipflag() == ICConsants.VIP_TYPE_VIP) {
+				starttime = userInviteUserInfo.getVipendtime();
+            }
 			Calendar rightNow = Calendar.getInstance();  
 	        rightNow.setTime(starttime);  
 	        rightNow.add(Calendar.MONTH, uservipinfo.getMonths());  
