@@ -55,11 +55,11 @@ public class DiVipInfoServiceImpl implements IDiVipInfoService {
 			uservipinfo.setTypename("DD记账" + model.getMonths() + "个月VIP");
 			model.setTypename("DD记账" + model.getMonths() + "个月VIP");
 			//计算时间
-			DiUserInfo userInviteUserInfo = diUserInfoMapper.selectByPrimaryKey(model.getUserid());
+			DiUserInfo userUserInfo = diUserInfoMapper.selectByPrimaryKey(model.getUserid());
 			//VIP记录 时间计算
 			Date starttime = new Date();
-			if (userInviteUserInfo.getVipflag() == ICConsants.VIP_TYPE_VIP) {
-				starttime = userInviteUserInfo.getVipendtime();
+			if (null != userUserInfo.getVipflag() && userUserInfo.getVipflag() == ICConsants.VIP_TYPE_VIP) {
+				starttime = userUserInfo.getVipendtime();
             }
 			Calendar rightNow = Calendar.getInstance();  
 	        rightNow.setTime(starttime);  

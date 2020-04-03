@@ -64,6 +64,9 @@ public class DiTypeService implements IDiTypeService {
 			throw new DiException("类别颜色不能为空");
 		}
 		DiType diType = diTypeMapper.selectByPrimaryKey(modelBody.getServerid());
+		if(null == diType) {
+			throw new DiException("修改类别数据异常");
+		}
 		diType.setName(modelBody.getName());
 		diType.setIcon(modelBody.getIcon());
 		diType.setColor(modelBody.getColor());
