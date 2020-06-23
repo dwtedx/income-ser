@@ -92,8 +92,9 @@ public class DiTopicServiceImpl implements IDiTopicService {
 		DiUserInfo userInfo;
 		
 		List<DiTopic> pojos = diTopicMapper.selectTopics(bodymodel.getStart(), bodymodel.getLength());
-		pojos.addAll(1, diTopicMapper.selectTopping());//加载置顶
-		
+		if(0 == bodymodel.getStart()) {
+			pojos.addAll(1, diTopicMapper.selectTopping());//加载置顶
+		}
 		// models = modelMapper.map(itemlist, new TypeToken<List<TopicModel>>(){}.getType());
 		for (DiTopic pojo : pojos) {
 			model = modelMapper.map(pojo, TopicModel.class);
