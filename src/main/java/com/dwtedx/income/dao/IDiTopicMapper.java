@@ -25,6 +25,7 @@ public interface IDiTopicMapper {
 
     int updateByPrimaryKey(DiTopic record);
 	
+    @Options(useCache = false)
 	@Select("select * from di_topic where deleteflag = 0 and topping = 0 order by id desc LIMIT #{start,jdbcType=INTEGER}, #{length,jdbcType=INTEGER};")
     List<DiTopic> selectTopics(@Param("start")int start, @Param("length")int length);
 	
