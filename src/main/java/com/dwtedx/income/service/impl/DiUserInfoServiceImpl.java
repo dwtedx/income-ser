@@ -2,11 +2,13 @@ package com.dwtedx.income.service.impl;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.dwtedx.income.dao.IDiParacontentMapper;
 import com.dwtedx.income.dao.IDiSendSmsMapper;
 import com.dwtedx.income.dao.IDiUserInfoMapper;
 import com.dwtedx.income.dao.IDiUserinviteinfoMapper;
@@ -14,6 +16,7 @@ import com.dwtedx.income.dao.IDiUservipinfoMapper;
 import com.dwtedx.income.exception.DiException;
 import com.dwtedx.income.model.PassWordModel;
 import com.dwtedx.income.model.UserInfoModel;
+import com.dwtedx.income.pojo.DiParacontent;
 import com.dwtedx.income.pojo.DiSendSms;
 import com.dwtedx.income.pojo.DiUserInfo;
 import com.dwtedx.income.pojo.DiUserinviteinfo;
@@ -43,6 +46,8 @@ public class DiUserInfoServiceImpl implements IDiUserInfoService {
 	private IDiUserinviteinfoMapper diUserinviteinfoMapper;
 	@Resource
 	private IDiUservipinfoMapper diUservipinfoMapper;
+	@Resource
+	private IDiParacontentMapper diParacontentMapper;
 
 	@Override
 	public DiUserInfo getUserById(int userId) {
@@ -570,7 +575,11 @@ public class DiUserInfoServiceImpl implements IDiUserInfoService {
 	@Override
 	public int getOpenVipCount() throws DiException {
 		int count = diUserInfoMapper.selectOpenVipCount();
-		return 277 + count;
+		List<DiParacontent> pojos = diParacontentMapper.selectParacontentByParaId(2);
+		if(pojos != null && pojos.size() > 0) {
+			return Integer.parseInt(pojos.get(0).getContent()) + count;
+		}
+		return count;
 	}
 	
 }

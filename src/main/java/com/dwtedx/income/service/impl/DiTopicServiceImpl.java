@@ -100,7 +100,14 @@ public class DiTopicServiceImpl implements IDiTopicService {
 			model = modelMapper.map(pojo, TopicModel.class);
 			// 查找用户
 			userInfo = diUserInfoMapper.selectByPrimaryKey(pojo.getUserid());
-			model.setUsername(userInfo.getName());
+			String userName = userInfo.getName();
+			if(CommonUtility.isEmpty(userName)) {
+				userName = userInfo.getUsername();
+			}
+			if(CommonUtility.isEmpty(userName)) {
+				userName = CommonUtility.hidePhone(userInfo.getPhone());
+			}
+			model.setUsername(userName);
 			model.setUserpath(userInfo.getHead());
 			// 查找图片
 			topicimgs = diTopicimgMapper.selectInsTopicimgs(pojo.getId());
