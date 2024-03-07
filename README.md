@@ -16,6 +16,10 @@
 ### 扫描消费小票
 AI人工智能消费小票识别，拍照并剪裁票据打印有效区域，基于全网海量优质数据和业界领先的深度学习技术针对票据上的打印字体识别效果达到更佳。基于小票数据结构保存消费记录。
 
+## 效果图
+<img src="http://storage.dwtedx.com/income/images/guide0.jpg" width="20%"/>    <img src="http://storage.dwtedx.com/income/images/guide1.jpg" width="20%"/>    <img src="http://storage.dwtedx.com/income/images/guide2.jpg" width="20%"/>    <img src="http://storage.dwtedx.com/income/images/guide3.jpg" width="20%"/>
+<hr/>
+
 ## 开源协议
 本协议旨在明确软件项目的开源性质、使用权限、分发条件和限制，并保护项目贡献者和使用者的合法权益。本协议适用于名为“（DD记账）”的软件项目，包括其源代码、文档和任何相关的资源文件。
 
